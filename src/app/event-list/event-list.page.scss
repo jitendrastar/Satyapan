@@ -1,0 +1,21 @@
+.lbl{
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+  .vertical-align-content{
+    display: flex !important;
+    justify-content: center !important;
+    // align-items: center !important;
+    flex-direction: column;
+    // height: 100%;
+  }
+  .callBtn {
+    border: 1px solid #00AB50;
+    border-radius: 5px;
+    box-shadow: none;
+    height: 23px;
+    width: 63px;
+    text-transform: capitalize;
+    margin-left: -17px;
+    margin-top: 3px;
+  }

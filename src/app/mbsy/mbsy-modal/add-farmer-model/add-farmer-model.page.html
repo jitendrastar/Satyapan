@@ -1,0 +1,117 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>MBSY - Add Farmer</ion-title>
+    <ion-icon slot="end" name="close" style="font-size: 24px; padding: 16px;" (click)="dismiss()"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div>
+    <ion-card class="filter_card ion-text-center">
+      <ion-row>
+        <ion-col size="12" class="ion-text-center">
+          <ion-input type="text"
+            placeholder="{{httpClient.currentLanguage=='english' ? 'Jan Aadhar Number' : 'जन आधार संख्या'}}"
+            class="filter_item" [(ngModel)]="janAadharNo"></ion-input>
+        </ion-col>
+        <ion-col class="btn_getDetail">
+          <ion-buttons>
+            <ion-button class="login_btn" (click)="getJanAadhaarDetails()">
+              <span *ngIf="httpClient.currentLanguage=='english'">Get Detail</span>
+              <span *ngIf="httpClient.currentLanguage=='hindi'">विवरण प्राप्त करें</span>
+            </ion-button>
+          </ion-buttons>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </div>
+
+  <div *ngIf="memberList && memberList.length > 0">
+    <ion-list lines="none">
+      <ion-radio-group (ionChange)="radioGroupMemberChange($event)" #radioGroup>
+        <ion-list-header>
+          <ion-label>Select Member Name</ion-label>
+        </ion-list-header>
+        <ion-row>
+          <ion-col size="12" *ngFor="let item of memberList">
+            <ion-item>
+              <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='english'">{{item.NAME}}
+              </ion-label>
+              <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='hindi'">{{item.NAME_HINDI}}
+              </ion-label>
+              <ion-radio style="margin-right: 8px;" slot="start" value="{{item.JAN_MEMBER_ID}}"></ion-radio>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-radio-group>
+
+      <ion-radio-group (ionChange)="radioGroupCategoryChange($event)" #radioGroup>
+        <ion-list-header>
+          <ion-label>Select Member Category</ion-label>
+        </ion-list-header>
+        <ion-row>
+          <ion-col size="4" *ngFor="let item of memberCatList">
+            <ion-item>
+              <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='english'">{{item.SourceEn}}
+              </ion-label>
+              <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='hindi'">{{item.SourceHi}}
+              </ion-label>
+              <ion-radio style="margin-right: 8px;" slot="start" value="{{item.SourceEn}}"></ion-radio>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-radio-group>
+
+      <ion-list>
+        <ion-list-header>
+          <ion-label>{{httpClient.currentLanguage=='english' ? 'Prospective Area (0.1 - 10.0 HA)' : 'संभावित क्षेत्र
+            (0.1 - 10.0 हेक्टेयर)'}}</ion-label>
+        </ion-list-header>
+
+        <ion-row>
+
+          <ion-col size="12">
+            <ion-item class="filter_item" lines="none">
+              <ion-input type="number"
+                placeholder="{{httpClient.currentLanguage=='english' ? 'Prospective Area (0.1 - 10.0 HA)' : 'संभावित क्षेत्र (0.1 - 10.0 हेक्टेयर)'}}"
+                [(ngModel)]="prospectiveArea" (ionChange)="customDecimalChecker()">
+              </ion-input>
+            </ion-item>
+          </ion-col>
+
+          <!-- <ion-col size="6">
+            <ion-item class="filter_item" lines="none">
+              <ion-select [(ngModel)]="prospectiveArea1" (ionChange)="changeProspectiveArea($event)">
+                <ion-select-option *ngFor="let item of prospectiveAreaArray1" [value]="item.value">
+                  <span>{{item.value}}</span>
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-item class="filter_item" lines="none">
+              <ion-select [(ngModel)]="prospectiveArea2" [disabled]="isProspectiveAreaDisabled"
+                (ionChange)="changeProspectiveArea($event)">
+                <ion-select-option *ngFor="let item of prospectiveAreaArray2" [value]="item.value">
+                  <span>{{item.value}}</span>
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col> -->
+        </ion-row>
+      </ion-list>
+
+    </ion-list>
+
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-button type="button" class="login_btn" (click)="saveTargetToLocalList()">
+          Add
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
+
+</ion-content>

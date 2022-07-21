@@ -1,0 +1,141 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button slot="start"></ion-back-button>
+    <ion-title>MBSY - Training</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="httpClient.changeLanguage()">
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+            class="lang_change_color">/अ</span></span>
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+            class="lang_change_color">/A</span></span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="filter_card">
+    <ion-row>
+      <!-- <ion-col size="12">
+        <ion-label class="filter_heading">{{httpClient.currentLanguage=='english' ? 'Producer Farmer' : 'उत्पादक
+          किसान'}}
+        </ion-label>
+        <ion-item class="filter_item" lines="none">
+          <ion-select [(ngModel)]="selectedPFarmerID" (ionChange)="selectePFarmerValue($event)">
+            <ion-select-option *ngFor="let item of pfarmerList" value="{{item.FarmerId}}">
+              <span>{{item.FarmerName}}</span>
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col> -->
+
+      <ion-col size="12" *ngIf="tfarmerList && tfarmerList.length > 0">
+        <ion-label class="filter_heading">{{httpClient.currentLanguage=='english' ? 'Training' : 'प्रशिक्षण'}}
+        </ion-label>
+        <ion-item class="filter_item" lines="none" *ngIf="httpClient.currentLanguage=='english'">
+          <ion-select [(ngModel)]="selectedTraining" (ionChange)="selectTrainingValue($event)">
+            <ion-select-option [disabled]="tfarmerList && tfarmerList[0].TrainingCount != '1'" value="1"><span>Training
+                - 1</span></ion-select-option>
+            <ion-select-option [disabled]="tfarmerList && tfarmerList[0].TrainingCount != '2'" value="2"><span>Training
+                - 2</span></ion-select-option>
+            <ion-select-option [disabled]="tfarmerList && tfarmerList[0].TrainingCount != '3'" value="3"><span>Training
+                - 3</span></ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item class="filter_item" lines="none" *ngIf="httpClient.currentLanguage=='hindi'">
+          <ion-select [(ngModel)]="selectedTraining" (ionChange)="selectTrainingValue($event)">
+            <ion-select-option [disabled]="tfarmerList && tfarmerList[0].TrainingCount != '1'" value="1"><span>प्रशिक्षण
+                - 1</span></ion-select-option>
+            <ion-select-option [disabled]="tfarmerList && tfarmerList[0].TrainingCount != '2'" value="2"><span>प्रशिक्षण
+                - 2</span></ion-select-option>
+            <ion-select-option [disabled]="tfarmerList && tfarmerList[0].TrainingCount != '3'" value="3"><span>प्रशिक्षण
+                - 3</span></ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div style="overflow-x:auto; margin-top: 6px;" *ngIf="pfarmerList && pfarmerList.length > 0">
+    <div style="background-color: #b3f0cf; text-align: center; padding: 8px;">{{httpClient.currentLanguage=='english' ? 'Producer Farmer(s)' : 'उत्पादक किसान'}}</div>
+    <table style="margin: 0 !important; border-top: none !important;">
+      <tr class="header_row">
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Sr No' : 'क्रमांक'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Farmer Name' : 'किसान का नाम'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Father Name' : 'पिता का नाम'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Is Rogging Done?' : 'क्या रॉगिंग हो गई है?'}}</span>
+        </th>
+      </tr>
+      <ng-template></ng-template>
+      <tr *ngFor="let item of pfarmerList; let i = index">
+        <td>
+          <p>{{i+1}}</p>
+        </td>
+        <td>
+          <p>{{item.FarmerName}}</p>
+        </td>
+        <td>
+          <p>{{item.FatherName}}</p>
+        </td>
+        <td>
+          <ion-checkbox [checked]="item.IsRoggingDone && item.IsRoggingDone == 'True'" (ionChange)="updateIsRoggingDone($event, item, i)">
+          </ion-checkbox>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div style="overflow-x:auto; margin-top: 6px;" *ngIf="tfarmerList && tfarmerList.length > 0">
+    <div style="background-color: #b3f0cf; text-align: center; padding: 8px;">{{httpClient.currentLanguage=='english' ? 'Farmer(s) Attendance' : 'किसान उपस्थिति'}}</div>
+    <table style="margin: 0 !important; border-top: none !important;">
+      <tr class="header_row">
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Sr No' : 'क्रमांक'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Farmer Name' : 'किसान का नाम'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Father Name' : 'पिता का नाम'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Present?' : 'उपस्थित?'}}</span>
+        </th>
+      </tr>
+      <ng-template></ng-template>
+      <tr *ngFor="let item of tfarmerList; let i = index">
+        <td>
+          <p>{{i+1}}</p>
+        </td>
+        <td>
+          <p>{{item.FarmerName}}</p>
+        </td>
+        <td>
+          <p>{{item.FatherName}}</p>
+        </td>
+        <td>
+          <ion-checkbox [checked]="item.IsPersent && item.IsPersent == 'True'" (ionChange)="updateIsFarmerPresent($event, item, i)">
+          </ion-checkbox>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col size="12">
+        <ion-button expand="full" (click)="saveTraining()">Save</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

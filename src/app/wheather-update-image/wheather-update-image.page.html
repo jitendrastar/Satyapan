@@ -1,0 +1,74 @@
+<ion-header class="header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-buttons>
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+    </ion-buttons>
+    <ion-title *ngIf="httpClient.currentLanguage=='english'">Information of kisan seva kendra</ion-title>
+    <ion-title *ngIf="httpClient.currentLanguage=='hindi'">किसान सेवा केंद्र की सूचना</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="httpClient.changeLanguage()">
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+            class="lang_change_color">/अ</span></span>
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+            class="lang_change_color">/A</span></span>
+      </ion-button>
+      <ion-button *ngIf="httpClient.userList.length>0" (click)="changeRole()">
+        <ion-icon name="people" style="font-size: 1.5em;"></ion-icon>
+      </ion-button>
+      <ion-button (click)="logoutPopUp()">
+        <ion-icon style="font-size: 1.5em;margin-right: 5px" name="person-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="home()">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+  <ion-content class="ion-padding">
+    <div class="container">
+      <ion-row>
+        <ion-col size=5 class="main_heading">
+          <span *ngIf="httpClient.currentLanguage=='english'">Office Name :</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">कार्यालय का नाम :</span>
+        </ion-col>
+        <ion-col>
+          <span *ngIf="httpClient.currentLanguage=='english'">{{officeName}}</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">{{officeName}}</span>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+      <ion-col size=5 class="main_heading">
+        <span *ngIf="httpClient.currentLanguage=='english'">Office Type :</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">कार्यालय का प्रकार :</span>
+      </ion-col>
+      <ion-col class="ion-text-wrap" style="word-break: break-all;">
+        <span *ngIf="httpClient.currentLanguage=='english'">{{officeType}}</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">{{officeType}}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+    <ion-col size=5 class="main_heading">
+      <span *ngIf="httpClient.currentLanguage=='english'">Upload File :</span>
+      <span *ngIf="httpClient.currentLanguage=='hindi'">फ़ाइल अपलोड करें :</span>
+    </ion-col>
+    <ion-col>
+      <ion-icon name="cloud-upload-outline" *ngIf="!fileURL" (click)="getFilePath()" style="font-size: 35px;margin: 5px 0;color: #dedede"></ion-icon>
+      <img [src]="fileURL" class="uploaded_img" *ngIf="fileURL">
+      <!-- <span style="font-size: 14px;" *ngIf="fileURL && httpClient.currentLanguage=='english'">Photo Uploaded</span>
+      <span style="font-size: 14px;" *ngIf="fileURL && httpClient.currentLanguage=='hindi'">फोटो अपलोड की गयी</span> -->
+    </ion-col>
+  </ion-row>
+    </div>
+<!-- 
+    <ion-button type="button" class="login_btn" (click)="submit()"
+    *ngIf="httpClient.currentLanguage=='english'" [disabled]="!enableSubmit">Submit
+  </ion-button>
+  <ion-button type="button" class="login_btn" (click)="submit()"
+    *ngIf="httpClient.currentLanguage=='hindi'" [disabled]="!enableSubmit">जमा करें
+  </ion-button> -->
+  </ion-content>
+
+

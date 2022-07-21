@@ -1,0 +1,104 @@
+<ion-header class="header">
+  <ion-toolbar>
+
+    <ion-title *ngIf="httpClient.currentLanguage=='english'">Select Option</ion-title>
+    <ion-title *ngIf="httpClient.currentLanguage=='hindi'">Select Option</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="httpClient.changeLanguage()">
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+            class="lang_change_color">/अ</span></span>
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+            class="lang_change_color">/A</span></span>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-row>
+    <ion-col (click)="gotoSubsidy()" size="6">
+      <ion-card class="header" style="text-align: center;">
+        <img src="assets/imgs/subsidy.svg" style="width: 80%;margin-top: 16px; border: 2px solid #000; border-radius: 20px;padding: 7px;">
+        <div style="margin-top: 16px;margin-bottom: 16px;" *ngIf="httpClient.currentLanguage=='english'">Subsidy</div>
+        <div style="margin-top: 16px;margin-bottom: 16px;" *ngIf="httpClient.currentLanguage=='hindi'">सब्सिडी</div>
+      </ion-card>
+    </ion-col>
+
+    <ion-col (click)="gotoLicense()" size="6">
+      <ion-card class="header" style="text-align: center;">
+        <img src="assets/imgs/licence.svg" style="width: 80%;margin-top: 16px;border: 2px solid #000; border-radius: 20px;padding: 7px;">
+        <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='english'">License</div>
+        <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='hindi'">लाइसेंस</div>
+      </ion-card>
+    </ion-col>
+
+    <ion-col (click)="gotoKsk()" size="6">
+      <ion-card class="header" style="text-align: center;">
+        <img src="assets/imgs/KSK.svg" style="width: 80%;margin-top: 16px; border: 2px solid #000; border-radius: 20px;">
+        <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='english'">Update KSK</div>
+        <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='hindi'">अपडेट केएसके</div>
+      </ion-card>
+    </ion-col>
+
+       <!-- Demonstartion -->
+       <ion-col (click)="gotoDemonstration()" size="6">
+        <ion-card class="header" style="text-align: center;">
+          <img src="../../../assets/imgs/demonstration-icon.svg" style="width: 80%;margin-top: 16px; border: 2px solid #000; border-radius: 20px;">
+          <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='english'">Demonstration</div>
+          <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='hindi'">प्रदर्शन</div>
+        </ion-card>
+      </ion-col>
+
+      <ion-col (click)="gotoWhether()" size="6">
+        <ion-card class="header" style="text-align: center;">
+          <img src="../../../assets/imgs/weather-update-icon.svg" style="width: 80%;margin-top: 16px;">
+          <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='english'">Update Weather Station</div>
+          <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='hindi'">मौसम स्टेशन अपडेट करें</div>
+        </ion-card>
+      </ion-col>
+
+      <ion-col (click)="gotoMiniKit()" size="6">
+        <ion-card class="header" style="text-align: center;">
+          <img src="assets/imgs/minikit_icon.png" style="width: 80%;margin-top: 16px; border: 2px solid #000; border-radius: 20px;">
+          <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='english'">Minikit</div>
+          <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='hindi'">मिनीकिट</div>
+        </ion-card>
+      </ion-col>
+
+      <ion-col (click)="gotoMBSY()" size="6">
+        <ion-card class="header" style="text-align: center;">
+          <img src="assets/imgs/mbsy.jpg" style="width: 80%;margin-top: 16px; border: 2px solid #000; border-radius: 20px;">
+          <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='english'">MBSY</div>
+          <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='hindi'">MBSY</div>
+        </ion-card>
+      </ion-col>
+
+      <ion-col (click)="eventlist()" size="6">
+        <ion-card class="header" style="text-align: center;">
+          <img src="assets/imgs/event.png" style="width: 80%;margin-top: 16px; border: 2px solid #000; border-radius: 20px;">
+          <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='english'">Events</div>
+          <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='hindi'">कार्यक्रम</div>
+        </ion-card>
+      </ion-col>
+
+      <ion-col (click)="gotoppchemical()" size="6">
+        <ion-card class="header" style="text-align: center;">
+          <img src="assets/imgs/PP-chemical.jpg" style="width: 80%;margin-top: 16px; border: 2px solid #000; border-radius: 20px;">
+          <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='english'">PP Chemical</div>
+          <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='hindi'">पीपी केमिकल</div>
+        </ion-card>
+      </ion-col>
+
+      <!-- Crop Disease treatment -->
+      <!-- <ion-col (click)="gotoCropDiseaseTreatment()" size="6">
+        <ion-card class="header" style="text-align: center;">
+          <img src="../../../assets/imgs/ic_demonstration.png" style="width: 80%;margin-top: 16px;height: 95px;">
+          <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='english'">Crop Diseases and Insects</div>
+          <div style="margin-top: 13px;margin-bottom: 13px;" *ngIf="httpClient.currentLanguage=='hindi'">फसलों के रोग व कीड़े</div>
+        </ion-card>
+      </ion-col> -->
+      
+  </ion-row>
+</ion-content>

@@ -1,0 +1,118 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="httpClient.currentLanguage=='english'">Barbed Wire Fencing</ion-title>
+    <ion-title *ngIf="httpClient.currentLanguage=='hindi'">Barbed Wire Fencing</ion-title>
+    <ion-buttons slot="end">
+        <ion-button (click)="httpClient.changeLanguage()">
+            <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+                    class="lang_change_color">/अ</span></span>
+            <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+                    class="lang_change_color">/A</span></span>
+        </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+
+    <ion-row *ngIf="bwfVerificationList.length <= 0" style="border-bottom: 1px solid #f4f4f4">
+      <ion-col size="3" class="ion-text-center">
+          <!--        <img alt="userimg" src="{{data.FarmerPhoto}}" width="50px" height="50px" style="border-radius: 180px"/>-->
+          <ion-skeleton-text animated style="width: 50px;height: 50px;border-radius: 180px;margin-left: 10px">
+          </ion-skeleton-text>
+
+      </ion-col>
+      <ion-col size="6" style="line-height: 17px">
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 40%"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+
+      </ion-col>
+      <ion-col size="3">
+          <ion-row>
+              <ion-col size="12" class="ion-text-center ion-no-padding">
+                  <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+
+              </ion-col>
+              <ion-col size="12" class="ion-text-center ion-no-padding">
+                  <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+
+              </ion-col>
+              <ion-col size="12" class="ion-text-center ion-margin-top">
+                  <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+
+              </ion-col>
+          </ion-row>
+      </ion-col>
+  </ion-row>
+ <div *ngIf="bwfVerificationList.length > 0">
+  <div *ngIf="httpClient.currentLanguage=='english'">
+    <ion-row style="border-bottom: 1px solid #f4f4f4"
+    *ngFor="let data of bwfVerificationList;let i=index;">
+      
+      <ion-col size="1">
+  
+      </ion-col>
+      <ion-col size="2" class="vertical-align-content">
+        <img alt="userimg" src="../../assets/imgs/iconbwf.png" width="30px" height="30px"  />
+       <!-- <ion-buttons>
+          <ion-button class="callBtn ion-no-padding">
+            <span style="color: green;font-size: 0.8em" class="ion-no-padding"
+              *ngIf="data.Status=='Assigned'">Assigned</span>
+            <span style="color: orangered;font-size: 0.8em" class="ion-no-padding"
+              *ngIf="data.Status=='Pending'">Pending</span>
+          </ion-button>
+
+        </ion-buttons>-->
+      </ion-col>
+      <ion-col size="7" (click)="gotoSubmissionPage(data.ApplicationId)">
+      <p class="lbl"><span style="font-weight: 400;">Group ID : {{data.GroupNo}}</span></p>
+      <p class="lbl"><span style="font-weight: 400;">No of Farmers: {{data.NoOfFarmers}}</span></p>
+      <p class="lbl"><span style="font-weight: 400;">Village : {{data.Village_Eng}}</span></p>
+      <p class="lbl"><span style="font-weight: 400;">Date of Registration : {{data.ApplicationDate}}</span></p>
+        
+      </ion-col>
+      <ion-col size="2"  (click)="gotoSubmissionPage(data.ApplicationId)" class="vertical-align-content">
+        <ion-icon style="font-size: 3em;color: #00AB50;font-weight: 700;" name="arrow-forward-circle"></ion-icon>
+      </ion-col>
+  </ion-row>
+  </div>
+  <div *ngIf="httpClient.currentLanguage=='hindi'">
+    <ion-row style="border-bottom: 1px solid #f4f4f4"
+    *ngFor="let data of bwfVerificationList;let i=index;">
+      
+      <ion-col size="1">
+  
+      </ion-col>
+      <ion-col size="2" class="vertical-align-content">
+        <img alt="userimg" src="../../assets/imgs/iconbwf.png" width="30px" height="30px"  />
+       <!-- <ion-buttons>
+          <ion-button class="callBtn ion-no-padding">
+            <span style="color: green;font-size: 0.8em" class="ion-no-padding"
+              *ngIf="data.Status=='Assigned'">Assigned</span>
+            <span style="color: orangered;font-size: 0.8em" class="ion-no-padding"
+              *ngIf="data.Status=='Pending'">Pending</span>
+          </ion-button>
+
+        </ion-buttons>-->
+      </ion-col>
+      <ion-col size="7" (click)="gotoSubmissionPage(data.ApplicationId)">
+        <p class="lbl"><span style="font-weight: 400;">Group ID : {{data.GroupNo}}</span></p>
+        <p class="lbl"><span style="font-weight: 400;">No of Farmers: {{data.NoOfFarmers}}</span></p>
+        <p class="lbl"><span style="font-weight: 400;">Village : {{data.Village_Mangal}}</span></p>
+        <p class="lbl"><span style="font-weight: 400;">Date of Registration : {{data.ApplicationDate}}</span></p>
+        
+      </ion-col>
+      <ion-col size="2"  (click)="gotoSubmissionPage(data.ApplicationId)" class="vertical-align-content">
+        <ion-icon style="font-size: 3em;color: #00AB50;font-weight: 700;" name="arrow-forward-circle"></ion-icon>
+      </ion-col>
+  </ion-row>
+  </div>
+</div>
+</ion-content>

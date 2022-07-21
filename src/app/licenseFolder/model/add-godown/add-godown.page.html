@@ -1,0 +1,117 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-title>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">गोदाम जोड़ें</span>
+          <span *ngIf="httpClient.currentLanguage=='english'">ADD GODOWN</span>
+      </ion-title>
+      <ion-buttons slot="end">
+          <ion-button (click)="httpClient.changeLanguage()">
+      <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+              class="lang_change_color">/अ</span></span>
+              <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+                      class="lang_change_color">/A</span></span>
+          </ion-button>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-button (click)="closeModel()">
+          <ion-icon name="close-circle" color="primary" style="font-size: 25px;"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- <ion-item class="item_select_implement" lines="none">
+    <ion-select placeholder="{{httpClient.currentLanguage =='english' ? '--- Select State ---' : '--- राज्य चुनें ---'}}" [(ngModel)]="selectedState" (ionChange)="getDistrictList()">
+      <ion-select-option *ngFor="let item of stateList" value="{{item.STATE_ID}}">
+       {{httpClient.currentLanguage =='english' ? item.STATE_ENG : item.STATE_MANGAL}}
+      </ion-select-option> 
+     </ion-select>
+  </ion-item> -->
+
+  <ion-item class="item_select_implement" lines="none">
+    <ion-select placeholder="{{httpClient.currentLanguage =='english' ? '--- Select District ---' : '--- जिला चुनें ---'}}" [(ngModel)]="selectedDistrict" (ionChange)="getTehsilList()">
+      <ion-select-option *ngFor="let item of districtList" value="{{item.DISTRICT_ID}}">
+        {{httpClient.currentLanguage =='english' ? item.DISTRICT_ENG : item.DISTRICT_MANGAL}}
+      </ion-select-option> 
+     </ion-select>
+  </ion-item>
+
+  <ion-item class="item_select_implement" lines="none">
+    <ion-select placeholder="{{httpClient.currentLanguage =='english' ? '--- Select Tehsil ---' : '--- तहसील चुनें ---'}}" [(ngModel)]="selectedTehsil" (ionChange)="getListAccToAddressType()">
+      <ion-select-option *ngFor="let item of tehsilList" value="{{item.TEHSIL_ID}}">
+        {{httpClient.currentLanguage =='english' ? item.TEHSIL_ENG : item.TEHSIL_MANGAL}}
+      </ion-select-option> 
+     </ion-select>
+  </ion-item>
+
+  <ion-radio-group [(ngModel)]="addressType" (ionChange)="getListAccToAddressType()">
+    <ion-list-header>
+      <ion-label class="txt_address">
+        {{httpClient.currentLanguage =='english' ? 'Rural/Urban' : 'शहरी/ग्रामीण'}}
+      </ion-label>
+    </ion-list-header>
+
+    <ion-row>
+      <ion-col>
+        <ion-item lines="none" class="address_type">
+          <ion-label>{{httpClient.currentLanguage =='english' ? 'Rural' : 'ग्रामीण'}}</ion-label>
+          <ion-radio value="rural" slot="start" color="primary"></ion-radio>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item lines="none" class="address_type">
+          <ion-label>{{httpClient.currentLanguage =='english' ? 'Urban' : 'शहरी'}}</ion-label>
+          <ion-radio value="urban" slot="start" color="primary"></ion-radio>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-radio-group>
+
+  <ion-item class="item_select_implement" lines="none" *ngIf="addressType == 'urban'">
+    <ion-select placeholder="{{httpClient.currentLanguage =='english' ? '--- Select City ---' : '--- शहर चुनें ---'}}" [(ngModel)]="selectedCity">
+      <ion-select-option *ngFor="let item of cityList" value="{{item.CITY_ID}}">
+        {{httpClient.currentLanguage =='english' ? item.CITY_ENG : item.CITY_MANGAL}}
+      </ion-select-option> 
+     </ion-select>
+  </ion-item>
+
+  <ion-item class="item_select_implement" lines="none" *ngIf="addressType == 'rural'">
+    <ion-select placeholder="{{httpClient.currentLanguage =='english' ? '--- Select Panchayat Samiti ---' : '--- पंचायत समिति चुनें ---'}}" [(ngModel)]="selectedPanchayatSamiti" (ionChange)="getGramPanchayatList()">
+      <ion-select-option *ngFor="let item of panchayatSamitiList" value="{{item.BLOCK_ID}}">
+        {{httpClient.currentLanguage =='english' ? item.BLOCK_ENG : item.BLOCK_Hi}}
+      </ion-select-option> 
+     </ion-select>
+  </ion-item>
+
+  <ion-item class="item_select_implement" lines="none" *ngIf="addressType == 'rural'">
+    <ion-select placeholder="{{httpClient.currentLanguage =='english' ? '--- Select Gram Panchayat ---' : '--- ग्राम पंचायत चुनें ---'}}" [(ngModel)]="selectedGramPanchayat" (ionChange)="getVillageList()">
+      <ion-select-option *ngFor="let item of gramPanchayatList" value="{{item.GP_ID}}">
+        {{httpClient.currentLanguage =='english' ? item.GP_ENG : item.GP_MANGAL}}
+      </ion-select-option> 
+     </ion-select>
+  </ion-item>
+
+  <ion-item class="item_select_implement" lines="none" *ngIf="addressType == 'rural'">
+    <ion-select placeholder="{{httpClient.currentLanguage =='english' ? '--- Select Village ---' : '--- गांव चुनें ---'}}" [(ngModel)]="selectedVillage">
+      <ion-select-option *ngFor="let item of villageList" value="item.VILLAGE_ID">
+        {{httpClient.currentLanguage =='english' ? item.VILLAGE_ENG : item.VILLAGE_MANGAL}}
+      </ion-select-option> 
+     </ion-select>
+  </ion-item>
+
+  <ion-input type="text" placeholder="{{httpClient.currentLanguage =='english' ? 'Plot No./Landmark' : 'प्लॉट नंबर/लैंडमार्क'}}" [(ngModel)]="plotNo_landmark" class="inp_boxes"></ion-input>
+
+  <ion-input type="text" placeholder="{{httpClient.currentLanguage =='english' ? 'Locality/Ward Number' : 'स्थान/वार्ड नंबर'}}" [(ngModel)]="locality_wardNo" class="inp_boxes"></ion-input>
+
+  <ion-input type="number" maxlength="6" placeholder="{{httpClient.currentLanguage =='english' ? 'Pincode' : 'पिन कोड'}}" [(ngModel)]="pincode" class="inp_boxes"></ion-input>
+
+  <ion-row>
+    <ion-col class="ion-text-center">
+      <button ion-button class="btn_next" (click)="addGodown()">{{httpClient.currentLanguage =='english' ? 'Add' : 'जोड़ें'}}</button>
+    </ion-col>
+  </ion-row>
+
+
+</ion-content>

@@ -1,0 +1,86 @@
+<ion-content>
+
+  <ion-list lines="none">
+    <ion-radio-group allow-empty-selection="true" name="radio-group" value="{{memberList[0].JAN_MEMBER_ID}}" (ionChange)="radioGroupMemberChange($event)" #radioGroup>
+      <ion-list-header>
+        <ion-label>Select Member Name</ion-label>
+      </ion-list-header>
+      <ion-row>
+        <ion-col size="6" *ngFor="let item of memberList">
+          <ion-item>
+            <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='english'">{{item.NAME}}</ion-label>
+            <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='hindi'">{{item.NAME_HINDI}}</ion-label>
+            <ion-radio style="margin-right: 8px;" slot="start" value="{{item.JAN_MEMBER_ID}}"></ion-radio>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-radio-group>
+
+    <ion-radio-group *ngIf="memberList && memberList[0].Village_Eng" value="{{memberList[0].Village_Eng}}" name="radio-group" #radioGroup>
+      <ion-list-header>
+        <ion-label>{{httpClient.currentLanguage=='english' ? 'Village in Janadhaar' : 'जनाधार में गांव'}}</ion-label>
+      </ion-list-header>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='english'">{{memberList[0].Village_Eng}}</ion-label>
+            <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='hindi'">{{memberList[0].Village_Hi}}</ion-label>
+            <ion-radio style="margin-right: 8px;" slot="start" value="{{memberList[0].Village_Eng}}"></ion-radio>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+    </ion-radio-group>
+  
+    <ion-radio-group name="radio-group" (ionChange)="radioGroupCategoryChange($event)" #radioGroup>
+      <ion-list-header>
+        <ion-label>Select Member Category</ion-label>
+      </ion-list-header>
+      <ion-row>
+        <ion-col size="4" *ngFor="let item of memberCatList">
+          <ion-item>
+          <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='english'">{{item.SourceEn}}</ion-label>
+          <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='hindi'">{{item.SourceHi}}</ion-label>
+          <ion-radio style="margin-right: 8px;" slot="start" value="{{item.Id}}"></ion-radio>
+        </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-radio-group>
+  </ion-list>
+
+  <div class="filter_card">
+    <ion-row>
+      <ion-col size="12">
+        <!-- <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='english'"> Select village if different than janadhaar</ion-label>
+        <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='hindi'"> जनाधार से अलग हो तो गांव चुनें</ion-label> -->
+        
+        <ion-label>{{httpClient.currentLanguage=='english' ? 'Village' : 'गांव'}}</ion-label>
+
+        <ion-item class="filter_item" lines="none" *ngIf="httpClient.currentLanguage=='english'">
+          <ion-select [(ngModel)]="selectedVillId">
+            <ion-select-option *ngFor="let item of villList" value="{{item.GPId}}">
+           <span>{{item.GPNameEn}}</span>
+            </ion-select-option> 
+          </ion-select>
+        </ion-item>
+        <ion-item class="filter_item" lines="none" *ngIf="httpClient.currentLanguage=='hindi'">
+          <ion-select [(ngModel)]="selectedVillId">
+            <ion-select-option *ngFor="let item of villList" value="{{item.GPId}}">
+              <span>{{item.GPNameHi}}</span>
+            </ion-select-option> 
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <ion-row>
+    <ion-col class="ion-text-center">
+      <ion-button type="button" class="login_btn" (click)="saveTargetToLocalList()">
+        Next
+      </ion-button>
+    </ion-col>
+  </ion-row>
+ 
+
+</ion-content>

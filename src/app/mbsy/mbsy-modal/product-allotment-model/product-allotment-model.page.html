@@ -1,0 +1,126 @@
+<ion-header class="header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismissModel()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>MBSY Distribution</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="httpClient.changeLanguage()">
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+            class="lang_change_color">/अ</span></span>
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+            class="lang_change_color">/A</span></span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      {{farmerData.F1}}
+    </ion-card-header>
+  </ion-card>
+
+  <div>
+    <ion-row>
+      <ion-col size="12" class="ion-text-center">
+        <ion-item>
+          <ion-label position="stacked">{{httpClient.currentLanguage == 'english' ? 'Area to be Sown' : 'बोया जाने वाला क्षेत्र'}}
+          </ion-label>
+          <ion-input value="{{farmerData.AreatobeallotedforcurrentYear}} HA" disabled>
+          </ion-input>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size="12" class="ion-text-center">
+        <ion-item>
+          <ion-label position="stacked">{{httpClient.currentLanguage=='hindi' ? 'मोबाइल नंबर' : 'Mobile Number'}}
+          </ion-label>
+          <ion-input type="tel" style="margin: 0 32px;" value="{{alternateMobile}}" disabled></ion-input>
+          <ion-icon name="phone-portrait" style="position: absolute; top: 27px; left: 0;"></ion-icon>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size="12" class="ion-text-center">
+        <ion-item>
+          <ion-label position="stacked">{{httpClient.currentLanguage=='english' ? 'Calculated Seed' : 'परिगणित बीज'}}
+          </ion-label>
+          <ion-input value="{{farmerData.CalculatedSeed}} Quintal" disabled>
+          </ion-input>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size="12" class="ion-text-center">
+        <ion-item>
+          <ion-label position="stacked">{{httpClient.currentLanguage=='english' ? 'Provided Seed' : 'प्रदान किया गया
+            बीज'}}
+          </ion-label>
+          <ion-input type="tel" [(ngModel)]="providedSeed">
+          </ion-input>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size="12" class="ion-text-center">
+        <ion-buttons>
+          <ion-button class="login_btn" (click)="sendOtp()" [disabled]="!reSendBtn">
+            <span *ngIf="httpClient.currentLanguage=='english'">Send OTP</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">ओटीपी भेजें</span>
+          </ion-button>
+        </ion-buttons>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div *ngIf="otpSent" style="border-top: 2px solid #999; margin: 30px 0 30px;">
+    <form #verifyForm="ngForm" (ngSubmit)="verifyOtp()" style="width: 100%">
+      <ion-row>
+        <ion-col size="12" class="txt_enterOTP">
+          <ion-label>{{httpClient.currentLanguage == 'hindi' ? 'कृपया मोबाइल नंबर पर प्राप्त ओटीपी दर्ज करें।' :
+            'Please enter OTP received on mobile number.'}}</ion-label>
+        </ion-col>
+
+        <ion-col size="12" class="ion-text-center">
+          <ion-item style="--ion-background-color:#ffffff;" lines="none" class="ion-text-center">
+            <ng-otp-input style="width: 100%;" (onInputChange)="onOtpChange($event)"
+              [config]="{length:6,allowNumbersOnly:true}"></ng-otp-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="12" class="ion-text-center">
+          <ion-buttons>
+            <ion-button class="login_btn" type="Submit" [disabled]="!verifyForm.valid">
+              <span *ngIf="httpClient.currentLanguage=='english'">Verify OTP</span>
+              <span *ngIf="httpClient.currentLanguage=='hindi'">ओटीपी सत्यापित करें</span>
+            </ion-button>
+          </ion-buttons>
+        </ion-col>
+
+        <ion-col size="12" class="ion-text-center">
+          <ion-button class="reSendText" fill="clear" (click)="sendOtp()" *ngIf="reSendBtn">
+            <span *ngIf="httpClient.currentLanguage=='english'">Resend OTP?</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">ओटीपी पुनः भेजें?</span>
+          </ion-button>
+          <ion-button class="reSendText" fill="clear" *ngIf="!reSendBtn">{{resendOTPTimer}}</ion-button>
+        </ion-col>
+
+      </ion-row>
+    </form>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-row>
+    <ion-col>
+      <ion-buttons>
+        <ion-button class="btn_dismiss_modal" (click)="dismissModel()">
+          <span *ngIf="httpClient.currentLanguage=='english'">Cancel</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">रद्द करें</span>
+          <ion-icon name="backspace" class="ic_backspace"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-col>
+  </ion-row>
+</ion-footer>

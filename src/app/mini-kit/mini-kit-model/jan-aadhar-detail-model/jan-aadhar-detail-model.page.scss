@@ -1,0 +1,48 @@
+.lb_member_cat{
+    margin-left: 16px;
+    display: block;
+    color: #0baf58;
+}
+
+ion-list-header ion-label{
+    color: #0baf58; 
+}
+
+.filter_card{
+    padding: 8px;
+    // margin: 0;
+    // box-shadow: 0 0 20px #0000002b;
+}
+
+.filter_card ion-col{
+    padding: 0 2px 2px 5px;
+}
+
+.filter_heading{
+    font-size: 12px;
+    color: #0baf58;
+    padding: 0 6px;
+}
+
+.filter_item{   
+    border-bottom: 1px solid #b9b9b9;
+    --padding-start: 5px;
+    --inner-padding-end: 0px !important;
+    --min-height: 35px;
+}
+
+.select-icon {
+    color: green;
+}
+
+.filter_item .item-inner{
+    padding-inline-end: 5px !important;
+}
+
+.filter_item ion-select{
+    font-size: 12px;
+    color: green;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}

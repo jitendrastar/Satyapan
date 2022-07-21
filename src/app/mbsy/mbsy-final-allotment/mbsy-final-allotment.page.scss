@@ -1,0 +1,40 @@
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+}
+
+.header_row {
+    background-color: #b3f0cf;
+}
+
+tr {
+    font-size: 12px;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 8px;
+}
+
+.disable-row {
+    background-color: #ededed;
+}
+
+.enable-row {
+    background-color: #fff;
+}
+
+.producer-farmer-alert {
+    .alert-input-group {
+        padding-top: 0;
+    }
+
+    input {
+        border: 1px solid #999;
+        padding: 10px;
+    }
+}

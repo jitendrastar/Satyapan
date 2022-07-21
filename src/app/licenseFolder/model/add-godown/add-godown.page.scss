@@ -1,0 +1,72 @@
+span.lang_change {
+    color: #1e854e;
+    font-weight: 400;
+  }
+  
+  span.lang_change_color {
+    color: #647B8C;
+    font-weight: 400;
+  }
+
+  .item_select_implement ion-select{
+    width: 100%;  
+    font-size: 12px;
+    padding: 3px;
+}
+
+.item_select_implement{
+    border: 1px solid #d8d8d8;
+    margin: 10px 15px;
+    border-radius: 5px;
+    margin-bottom: 0px !important;
+    --min-height: 35px !important;
+}
+
+.address_type ion-label{
+    margin: 3px;
+    display: block;
+    font-size: 12px;
+    color: grey;
+    font-family: 'PoppinsMedium';
+}
+
+.address_type ion-radio{
+    margin: 0px 15px 0 0;
+}
+
+.txt_address{
+    color: #00AB50;
+    font-family: Gilroy-Medium !important;
+    font-size: 12px;
+}
+
+ion-list-header{
+    min-height: 24px !important;
+    margin-top: 10px;
+}
+
+.address_type{
+    --min-height: 23px !important;
+}
+
+.inp_boxes{
+    border: 1px solid #dad9d9;
+    margin: 10px 15px;
+    width: 90%;
+    border-radius: 5px;
+    font-size: 10px;
+    font-family: 'PoppinsMedium';
+}
+
+.btn_next{
+    font-size: 14px;
+    padding: 10px;
+    width: 80%;
+    border-radius: 15px;
+    color: #fff;
+    background: #00AB50;
+    text-transform: uppercase;
+    font-family: 'PoppinsRegular';
+    margin-bottom: 10px;
+}
+

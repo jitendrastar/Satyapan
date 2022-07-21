@@ -1,0 +1,389 @@
+<ion-header class="header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-buttons>
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+    </ion-buttons>
+    <ion-title *ngIf="httpClient.currentLanguage=='english'">Demonstration</ion-title>
+    <ion-title *ngIf="httpClient.currentLanguage=='hindi'">प्रदर्शन</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="httpClient.changeLanguage()">
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+            class="lang_change_color">/अ</span></span>
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+            class="lang_change_color">/A</span></span>
+      </ion-button>
+      <ion-button *ngIf="httpClient.userList.length>0" (click)="changeRole()">
+        <ion-icon name="people" style="font-size: 1.5em;"></ion-icon>
+      </ion-button>
+      <ion-button (click)="logoutPopUp()">
+        <ion-icon style="font-size: 1.5em;margin-right: 5px" name="person-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="home()">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- ------Filteration card------ -->
+    <div class="filter_card">
+      <ion-row>
+        <ion-col size="6">
+          <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='english'"> Scheme</ion-label>
+          <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='hindi'"> योजना</ion-label>
+          
+          <ion-item class="filter_item" lines="none" *ngIf="httpClient.currentLanguage=='english'">
+            <ion-select [(ngModel)]="selectedSchemeID" (ionChange)="selectFilterValue('scheme')">
+              <ion-select-option *ngFor="let item of schemeFilterRes" value="{{item.Id}}">
+             <span>{{item.EngName}}</span>
+              </ion-select-option> 
+            </ion-select>
+          </ion-item>
+          <ion-item class="filter_item" lines="none" *ngIf="httpClient.currentLanguage=='hindi'">
+            <ion-select [(ngModel)]="selectedSchemeID" (ionChange)="selectFilterValue('scheme')">
+              <ion-select-option *ngFor="let item of schemeFilterRes" value="{{item.Id}}">
+                <span>{{item.HinName}}</span>
+              </ion-select-option> 
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='english'"> Sub Scheme</ion-label>
+          <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='hindi'"> उप योजना</ion-label>
+          <ion-item class="filter_item" lines="none" [disabled]="enableSubScheme" *ngIf="httpClient.currentLanguage=='english'">
+            <ion-select [(ngModel)]="selectedSubSchemeID" (ionChange)="selectFilterValue('subScheme')">
+              <ion-select-option *ngFor="let item of subSchemeFilterRes" value="{{item.Id}}">
+                <span>{{item.EngName}}</span>
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="filter_item" lines="none" [disabled]="enableSubScheme" *ngIf="httpClient.currentLanguage=='hindi'">
+            <ion-select [(ngModel)]="selectedSubSchemeID" (ionChange)="selectFilterValue('subScheme')">
+              <ion-select-option *ngFor="let item of subSchemeFilterRes" value="{{item.Id}}">
+                <span>{{item.HinName}}</span>
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+  
+      <ion-row>
+        <ion-col size="6">
+          <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='english'"> Component</ion-label>
+          <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='hindi'"> अवयव</ion-label>
+          <ion-item class="filter_item" lines="none" [disabled]="enableComponent" *ngIf="httpClient.currentLanguage=='english'">
+            <ion-select [(ngModel)]="selectedComponentID" (ionChange)="selectFilterValue('component')">
+              <ion-select-option *ngFor="let item of componentFilterRes" value="{{item.Id}}">
+                <span >{{item.EngName}}</span>  
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="filter_item" lines="none" [disabled]="enableComponent" *ngIf="httpClient.currentLanguage=='hindi'">
+            <ion-select [(ngModel)]="selectedComponentID" (ionChange)="selectFilterValue('component')">
+              <ion-select-option *ngFor="let item of componentFilterRes" value="{{item.Id}}">
+                <span>{{item.HinName}}</span>
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='english'"> Category</ion-label>
+          <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='hindi'"> श्रेणी</ion-label>
+          <ion-item class="filter_item" lines="none" [disabled]="enableCategory" *ngIf="httpClient.currentLanguage=='english'">
+            <ion-select [(ngModel)]="selectedCategoryID" (ionChange)="selectFilterValue('category')">
+              <ion-select-option *ngFor="let item of categoryFilterRes" value="{{item.Id}}">
+                <span >{{item.EngName}}</span>
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="filter_item" lines="none" [disabled]="enableCategory" *ngIf="httpClient.currentLanguage=='hindi'">
+            <ion-select [(ngModel)]="selectedCategoryID" (ionChange)="selectFilterValue('category')">
+              <ion-select-option *ngFor="let item of categoryFilterRes" value="{{item.Id}}">
+                <span>{{item.HinName}}</span>
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+  
+      <ion-row>
+        <ion-col size="6">
+          <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='english'"> Activity</ion-label>
+          <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='hindi'"> गतिविधि</ion-label>
+          <ion-item class="filter_item" lines="none" [disabled]="enableActivity" *ngIf="httpClient.currentLanguage=='english'">
+            <ion-select [(ngModel)]="selectedActivityID" (ionChange)="selectFilterValue('activity')">
+              <ion-select-option *ngFor="let item of activityFilterRes" value="{{item.Id}}">
+             <span>{{item.EngName}}</span>
+                <!-- <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.HinName}}</span> -->
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="filter_item" lines="none" [disabled]="enableActivity" *ngIf="httpClient.currentLanguage=='hindi'">
+            <ion-select [(ngModel)]="selectedActivityID" (ionChange)="selectFilterValue('activity')">
+              <ion-select-option *ngFor="let item of activityFilterRes" value="{{item.Id}}">
+                <span>{{item.HinName}}</span>
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='english'"> Sub Activity</ion-label>
+          <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='hindi'"> उप गतिविधि</ion-label>
+          <ion-item class="filter_item" lines="none" [disabled]="enableSubActivity" *ngIf="httpClient.currentLanguage=='english'">
+            <ion-select [(ngModel)]="selectedSubActivityID" (ionChange)="selectFilterValue('sub_activity')">
+              <ion-select-option *ngFor="let item of subActivityFilterRes" value="{{item.Id}}">
+                <span>{{item.EngName}}</span>
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="filter_item" lines="none" [disabled]="enableSubActivity" *ngIf="httpClient.currentLanguage=='hindi'">
+            <ion-select [(ngModel)]="selectedSubActivityID" (ionChange)="selectFilterValue('sub_activity')">
+              <ion-select-option *ngFor="let item of subActivityFilterRes" value="{{item.Id}}">
+                <span>{{item.HinName}}</span>
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+  
+      <ion-row>
+        <ion-col size="12">
+          <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='english'">Financial Year</ion-label>
+          <ion-label class="filter_heading" *ngIf="httpClient.currentLanguage=='hindi'">वित्तीय वर्ष</ion-label>
+          <ion-item class="filter_item" lines="none" [disabled]="enableFinancialYr">
+            <ion-select [(ngModel)]="selectedFinancialYr" (ionChange)="selectFilterValue('financial_year')">
+              <ion-select-option *ngFor="let item of financialYrFilterRes" value="{{item.FIN_YEAR_MASTR_ID}}">
+             <span>{{item.FIN_YEAR_NAME}}</span>
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+  
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-buttons>
+            <ion-button class="login_btn" (click)="searchResult()">
+            Search <ion-icon name="search"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+
+        </ion-col>
+
+        <ion-col class="ion-text-center">
+          <ion-buttons>
+            <ion-button class="login_btn" (click)="clearFilters()">
+              Clear
+            </ion-button>
+          </ion-buttons>
+
+        </ion-col>
+      </ion-row>
+     
+     
+    </div>
+  <!-- ------Filteration card Ends------ -->
+
+  <!-- -------For AAO------ -->
+  <div *ngIf="httpClient.userData.roleid == 13 && showSearchRes == true">
+
+    <ion-card  *ngFor="let item of searchResList; let i=index;" class="expandable_card">
+      <ion-row class="expandable_row">
+        <ion-col size=2 class="ion-text-center">
+          <span class="span_serialNo">{{i+1}}</span>
+        </ion-col>
+        <ion-col size=8>
+          <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Physical Target &nbsp;&nbsp;&nbsp;<span>{{item.Physicalcategory}}</span> </span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">भौतिक लक्ष्य&nbsp;&nbsp;&nbsp;<span>{{item.Physicalcategory}}</span></span>
+        </ion-col>
+        <ion-col class="ion-text-center ion-no-padding ic_expand">
+          <ion-icon name="remove" *ngIf="aaoCardIndex == i && isExpandable == true" (click)="expandCard(i,false)"></ion-icon>
+          <ion-icon name="add" *ngIf="aaoCardIndex == i && isExpandable == false" (click)="expandCard(i,true)"></ion-icon>
+          <ion-icon name="add" *ngIf="aaoCardIndex != i && isExpandable == true" (click)="expandCard(i,true)"></ion-icon>
+          <ion-icon name="add" *ngIf="aaoCardIndex != i && isExpandable == false" (click)="expandCard(i,true)"></ion-icon>
+        </ion-col>
+      </ion-row>
+      <div class="expandable_row" *ngIf="aaoCardIndex == i && isExpandable == true">
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Scheme</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">योजना</span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.Scheme_Eng}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.Scheme_Hi}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Sub Scheme</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">उप योजना</span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.SubScheme_Eng}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.SubScheme_Hi}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Component</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">अवयव </span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.Component_Eng}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.Component_Hi}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Activity</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">गतिविधि </span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span>{{item.ActivityName_En}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Sub Activity</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">उप गतिविधि </span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.ActivitySubNameEN}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.ActivitySubNameHI}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Variety</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">विविधता </span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.SeedKindVarietyEn}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.SeedKindVarietyHi}}</span>
+          </ion-col>
+        </ion-row>
+      </div>
+     
+      <ion-row *ngIf="aaoCardIndex == i && isExpandable == true">
+        <ion-col class="ion-text-center">
+          <ion-buttons>
+            <ion-button class="login_btn"(click)="getASList(i)">
+              Get AS List
+            </ion-button>
+          </ion-buttons>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+
+  </div>
+  <!-- -------For AAO Ends------- -->
+
+  <!-- -------For AS------ -->
+  <div *ngIf="httpClient.userData.roleid == 14 && showSearchRes == true">
+
+    <ion-card  *ngFor="let item of asSearchResList; let i=index;" class="expandable_card">
+      <ion-row class="expandable_row">
+        <ion-col size=2 class="ion-text-center">
+          <span class="span_serialNo">{{i+1}}</span>
+        </ion-col>
+        <ion-col size=8>
+          <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Target &nbsp;&nbsp;&nbsp;<span>{{item.AllotedTarget}} (Hectare Model)</span> </span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">लक्ष्य&nbsp;&nbsp;&nbsp;<span>{{item.AllotedTarget}} (हेक्टेयर मॉडल)</span></span>
+        </ion-col>
+        <ion-col class="ion-text-center ion-no-padding ic_expand">
+          <ion-icon name="remove" *ngIf="aaoCardIndex == i && isExpandable == true" (click)="expandCard(i,false)"></ion-icon>
+          <ion-icon name="add" *ngIf="aaoCardIndex == i && isExpandable == false" (click)="expandCard(i,true)"></ion-icon>
+          <ion-icon name="add" *ngIf="aaoCardIndex != i && isExpandable == true" (click)="expandCard(i,true)"></ion-icon>
+          <ion-icon name="add" *ngIf="aaoCardIndex != i && isExpandable == false" (click)="expandCard(i,true)"></ion-icon>
+        </ion-col>
+      </ion-row>
+      <div class="expandable_row" *ngIf="aaoCardIndex == i && isExpandable == true">
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Scheme</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">योजना</span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.Scheme_Eng}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.Scheme_Hi}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Sub Scheme</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">उप योजना</span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.SubScheme_Eng}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.SubScheme_Hi}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Component</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">अवयव </span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.Component_Eng}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.Component_Hi}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Activity</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">गतिविधि </span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span>{{item.ActivityName_En}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Sub Activity</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">उप गतिविधि </span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.ActivitySubNameEN}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.ActivitySubNameHI}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Alloted Target</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">आवंटित लक्ष्य </span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span>{{item.AllotedTarget}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Variety</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">विविधता </span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.SeedKindVarietyEn}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.SeedKindVarietyHi}}</span>
+          </ion-col>
+        </ion-row>
+      </div>
+     
+      <ion-row *ngIf="aaoCardIndex == i && isExpandable == true">
+        <ion-col class="ion-text-center">
+          <ion-buttons>
+            <ion-button class="login_btn"(click)="showJanAadharView(i)">
+              <span *ngIf="httpClient.currentLanguage=='english'">View</span>
+              <span *ngIf="httpClient.currentLanguage=='hindi'">देखें </span>
+            </ion-button>
+          </ion-buttons>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </div>
+  <!-- -------For AS Ends------- -->
+
+</ion-content>

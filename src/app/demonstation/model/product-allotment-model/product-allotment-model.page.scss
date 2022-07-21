@@ -1,0 +1,37 @@
+span.lang_change {
+    color: #53bf1c;
+    font-weight: 400;
+  }
+  
+  span.lang_change_color {
+    color: #53bf1c;
+    font-weight: 400;
+  }
+  
+  .login_btn {
+    border-radius: 50px;
+    width: 80%;
+    height: 50px;
+    font-size: 15px;
+    text-transform: uppercase;
+    margin: 0 auto;
+    margin-top: 30px;
+    display: block;
+    background: -webkit-linear-gradient(0deg, #0baf58 0%, #99c847 100%);
+    box-shadow: none;
+    color: #ffffff;
+  }
+  
+  .reSendText{
+    --box-shadow: none;
+    height: 20px;
+    margin-top: 15px;
+  
+  }
+
+  .txt_enterOTP ion-label{
+    margin: 16px;
+    display: block;
+    text-align: center;
+  }
+  

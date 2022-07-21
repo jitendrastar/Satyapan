@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button slot="start"></ion-back-button>
+    <ion-title>MBSY - Distribution</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="httpClient.changeLanguage()">
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+            class="lang_change_color">/अ</span></span>
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+            class="lang_change_color">/A</span></span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      {{selectedGroup.CurrentSeedSowingAreaHa_F}}
+    </ion-card-header>
+  </ion-card>
+  <div style="overflow-x:auto;">
+    <table *ngIf="farmerList && farmerList.length > 0">
+      <tr class="header_row">
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Sr No' : 'क्रमांक'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Farmer Name' : 'किसान का नाम'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Father Name' : 'पिता का नाम'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Prospective Area' : 'संभावित क्षेत्र'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Farmer Category' : 'किसान की श्रेणी'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Is Producer Farmer?' : 'उत्पादक किसान है?'}}</span>
+        </th>
+      </tr>
+      <ng-template></ng-template>
+      <tr *ngFor="let item of farmerList; let i = index">
+        <td>
+          <p>{{i+1}}</p>
+        </td>
+        <td>
+          <p>{{item.FarmerName}}</p>
+        </td>
+        <td>
+          <p>{{item.FatherName}}</p>
+        </td>
+        <td>
+          <p>{{item.ProspectiveAreaHA}} HA</p>
+        </td>
+        <td>
+          <p>{{item.FarmerCategory}}</p>
+        </td>
+        <td>
+          <ion-checkbox [checked]="item.isProducerFarmer" (ionChange)="updateIsProducerFarmer($event, item, i)">
+          </ion-checkbox>
+        </td>
+      </tr>
+    </table>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col size="12">
+        <ion-button expand="full" (click)="finalSaveGroupDataPrompt()">Final Save</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

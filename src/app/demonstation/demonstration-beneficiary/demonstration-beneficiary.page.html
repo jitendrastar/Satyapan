@@ -1,0 +1,183 @@
+<ion-header class="header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-buttons>
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+    </ion-buttons>
+    <ion-title *ngIf="httpClient.currentLanguage=='english'">Demonstration Beneficiary</ion-title>
+    <ion-title *ngIf="httpClient.currentLanguage=='hindi'">प्रदर्शन लाभार्थी</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="httpClient.changeLanguage()">
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+            class="lang_change_color">/अ</span></span>
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+            class="lang_change_color">/A</span></span>
+      </ion-button>
+      <ion-button *ngIf="httpClient.userList.length>0" (click)="changeRole()">
+        <ion-icon name="people" style="font-size: 1.5em;"></ion-icon>
+      </ion-button>
+      <ion-button (click)="logoutPopUp()">
+        <ion-icon style="font-size: 1.5em;margin-right: 5px" name="person-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="home()">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div style="overflow-x:auto;">
+    <table>
+    <tr class="header_row">
+      <th>
+        <span *ngIf="httpClient.currentLanguage=='english'">ID</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">आईडी</span>
+      </th>
+      <th>
+        <span *ngIf="httpClient.currentLanguage=='english'">Member Name</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">सदस्य का नाम</span>
+      </th>
+      <th>
+        <span *ngIf="httpClient.currentLanguage=='english'">Member ID</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">सदस्य आईडी</span>
+      </th>
+      <th>
+      </th>
+    </tr>
+    <ng-template></ng-template>
+    <!-- <tr *ngFor="let item of optionalArray; let i=index;"> -->
+    <tr *ngFor="let item of memberList; let i = index">
+      <td>
+        <p>{{item.Id}}</p>
+      </td>
+      <td>
+        <p *ngIf="httpClient.currentLanguage=='english'">{{item.Name}}</p>
+        <p *ngIf="httpClient.currentLanguage=='hindi'">{{item.Name_Hi}}</p>
+      </td>
+      <td>
+        <p>{{item.MemberId}}</p>
+      </td>
+      <td>
+        <div class="div_allocate">
+          <ion-buttons>
+            <ion-button class="login_btn" (click)="allocateToMember(item)">
+              <span *ngIf="httpClient.currentLanguage=='english'">Allocate</span>
+              <span *ngIf="httpClient.currentLanguage=='hindi'">आवंटित करें  </span>
+            </ion-button>
+          </ion-buttons>
+          &nbsp;
+          <ion-icon name="trash" class="ic_trash" *ngIf="item.IsAllotted == 0" (click)="deleteMember(item)"></ion-icon>
+        </div>
+        
+      </td>
+    </tr>
+  </table>
+
+  <ion-row *ngIf="showProductList == true">
+    <ion-col>
+      <ion-label class="header_row select_hectare_heading" *ngIf="httpClient.currentLanguage=='english'"> Select Hectare Model</ion-label>
+      <ion-label class="header_row" *ngIf="httpClient.currentLanguage=='hindi'"> हेक्टेयर मॉडल का चयन करें</ion-label>
+      <ion-item class="filter_item" lines="none">
+        <ion-select [(ngModel)]="selectedHectare" placeholder="Select hectare" (ionChange)="onHectareSelection('')" [disabled]="hectareModelSelected">
+          <ion-select-option *ngFor="let item of hectareModelArray" value="{{item}}">
+             <span>{{item}}</span>
+          </ion-select-option> 
+        </ion-select>
+      </ion-item>
+    </ion-col>
+   
+  </ion-row>
+
+  <ion-row *ngIf="showProductList == true">
+    <ion-col size="6">
+      <ion-label class="header_row upload_img_heading" *ngIf="httpClient.currentLanguage=='english'"> Jamabandi</ion-label>
+      <ion-label class="header_row upload_img_heading" *ngIf="httpClient.currentLanguage=='hindi'"> जमाबंदी</ion-label>
+      <ion-icon name="cloud-upload" class="ic_upload" (click)="selectImage('JamabandiImagePath')"></ion-icon>
+    </ion-col>
+    <ion-col size="6">
+      <ion-label class="header_row upload_img_heading" *ngIf="httpClient.currentLanguage=='english'"> Nazaria Naksha</ion-label>
+      <ion-label class="header_row upload_img_heading" *ngIf="httpClient.currentLanguage=='hindi'"> नज़रिए नक्शा</ion-label>
+      <ion-icon name="cloud-upload" class="ic_upload" (click)="selectImage('NotionalShareImagePath')"></ion-icon>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="showProductList == true">
+    <ion-col size="6">
+      <img src="{{jamabandiImagePath}}" *ngIf="jamabandiImagePath != ''">
+    </ion-col>
+    <ion-col size="6">
+      <img src="{{nazariaImagePath}}" *ngIf="nazariaImagePath != ''">
+    </ion-col>
+  </ion-row>
+
+  <div *ngIf="showProductList == true && showProductAccHectare == true" class="ion-margin-top div_product_list">
+    <ion-row class="header_row">
+      <ion-col>
+        <span *ngIf="httpClient.currentLanguage=='english'">Being allotted to {{alloctingMemberName}}</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">{{alloctingMemberName}} को आवंटित की जा रही है।  </span>
+      </ion-col>
+    </ion-row>
+    <ion-list lines="none" class="ion-no-padding product_list">
+      <ion-item *ngFor="let entry of productList; let i = index">
+        <ion-row class="row_product">
+          <ion-col size=5>
+            <ion-label *ngIf="httpClient.currentLanguage=='english'">{{entry.DemonstrationNameEng}}</ion-label>
+            <ion-label *ngIf="httpClient.currentLanguage=='hindi'">{{entry.DemonstrationNameHindi}}</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label *ngIf="httpClient.currentLanguage=='english'">{{selectedHectare * entry.UnitValue | number:'1.2-2'}} {{entry.UnitEn}}</ion-label>
+            <ion-label *ngIf="httpClient.currentLanguage=='hindi'">{{selectedHectare * entry.UnitValue | number:'1.2-2'}} {{entry.UnitHi}}</ion-label>
+          </ion-col>
+        </ion-row>
+       
+        <ion-checkbox slot="start" (ionChange)="addProductToList(entry,i)" *ngIf="entry.AlreadySaved != 1"></ion-checkbox>
+        <ion-checkbox slot="start" (ionChange)="addProductToList(entry,i)" *ngIf="entry.AlreadySaved == 1" disabled></ion-checkbox>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <ion-row class="ion-margin-top btn_submit" *ngIf="showProductList == true && showProductAccHectare == true && showSaveBtn == false">
+    <ion-col>
+      <ion-buttons>
+        <ion-button class="login_btn" (click)="getJanAadharData(1)">
+          <span *ngIf="httpClient.currentLanguage=='english'">Partial Save</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">आंशिक जमा करें   </span>
+        </ion-button>
+      </ion-buttons>
+    </ion-col>
+    <ion-col>
+      <ion-buttons>
+        <ion-button class="login_btn" (click)="showConfirmAlert(0)">
+          <span *ngIf="httpClient.currentLanguage=='english'">Save</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">जमा करें </span>
+        </ion-button>
+      </ion-buttons>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="showSaveBtn == true">
+    <ion-col class="ion-text-left">
+      <ion-label *ngIf="httpClient.currentLanguage=='english'">Demonstartion is completed for the selected farmer.</ion-label>
+      <ion-label *ngIf="httpClient.currentLanguage=='hindi'">चयनित किसान के लिए प्रदर्शन पूरा हो गया है।</ion-label>
+    </ion-col>
+  </ion-row>
+  </div>
+
+
+</ion-content>
+
+<ion-footer>
+  <ion-row>
+    <ion-col>
+      <ion-buttons>
+        <ion-button class="btn_viewLit" (click)="viewSowingMemberList()">
+          <span *ngIf="httpClient.currentLanguage=='english'">View Allocated Sowing Members</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">आवंटित बुवाई की सदस्य सूची देखें </span>
+          <ion-icon name="arrow-forward-circle" class="ic_forward_arrow"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-col>
+  </ion-row>
+</ion-footer>

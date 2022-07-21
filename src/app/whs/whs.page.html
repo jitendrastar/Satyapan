@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="httpClient.currentLanguage=='english'">WHS</ion-title>
+    <ion-title *ngIf="httpClient.currentLanguage=='hindi'">WHS</ion-title>
+    <ion-buttons slot="end">
+        <ion-button (click)="httpClient.changeLanguage()">
+            <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+                    class="lang_change_color">/अ</span></span>
+            <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+                    class="lang_change_color">/A</span></span>
+        </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="httpClient.currentLanguage=='english'">
+    <ion-row style="border-bottom: 1px solid #f4f4f4"
+    *ngFor="let data of whsVerificationList;let i=index;">
+      
+      <ion-col size="1">
+  
+      </ion-col>
+      <ion-col size="2" class="vertical-align-content">
+        <img alt="userimg" src="../../assets/imgs/iconbwf.png" width="30px" height="30px"  />
+       <!-- <ion-buttons>
+          <ion-button class="callBtn ion-no-padding">
+            <span style="color: green;font-size: 0.8em" class="ion-no-padding"
+              *ngIf="data.Status=='Assigned'">Assigned</span>
+            <span style="color: orangered;font-size: 0.8em" class="ion-no-padding"
+              *ngIf="data.Status=='Pending'">Pending</span>
+          </ion-button>
+
+        </ion-buttons>-->
+      </ion-col>
+      <ion-col size="7" (click)="gotoSubmissionPage(data)">
+      <p class="lbl"><span style="font-weight: 400;">Group ID : {{data.GroupNo}}</span></p>
+      <p class="lbl"><span style="font-weight: 400;">No of Farmers: {{data.NoOfFarmers}}</span></p>
+      <p class="lbl"><span style="font-weight: 400;">Village : {{data.Village_Eng}}</span></p>
+      <p class="lbl"><span style="font-weight: 400;">Date of Registration : {{data.ApplicationDate}}</span></p>
+        
+      </ion-col>
+      <ion-col size="2"  (click)="gotoSubmissionPage(data)" class="vertical-align-content">
+        <ion-icon style="font-size: 3em;color: #00AB50;font-weight: 700;" name="arrow-forward-circle"></ion-icon>
+      </ion-col>
+  </ion-row>
+  </div>
+  <div *ngIf="httpClient.currentLanguage=='hindi'">
+    <ion-row style="border-bottom: 1px solid #f4f4f4"
+    *ngFor="let data of whsVerificationList;let i=index;">
+      
+      <ion-col size="1">
+  
+      </ion-col>
+      <ion-col size="2" class="vertical-align-content">
+        <img alt="userimg" src="../../assets/imgs/iconbwf.png" width="30px" height="30px"  />
+       <!-- <ion-buttons>
+          <ion-button class="callBtn ion-no-padding">
+            <span style="color: green;font-size: 0.8em" class="ion-no-padding"
+              *ngIf="data.Status=='Assigned'">Assigned</span>
+            <span style="color: orangered;font-size: 0.8em" class="ion-no-padding"
+              *ngIf="data.Status=='Pending'">Pending</span>
+          </ion-button>
+
+        </ion-buttons>-->
+      </ion-col>
+      <ion-col size="7" (click)="gotoSubmissionPage(data)">
+        <p class="lbl"><span style="font-weight: 400;">Group ID : {{data.GroupNo}}</span></p>
+        <p class="lbl"><span style="font-weight: 400;">No of Farmers: {{data.NoOfFarmers}}</span></p>
+        <p class="lbl"><span style="font-weight: 400;">Village : {{data.Village_Mangal}}</span></p>
+        <p class="lbl"><span style="font-weight: 400;">Date of Registration : {{data.ApplicationDate}}</span></p>
+        
+      </ion-col>
+      <ion-col size="2"  (click)="gotoSubmissionPage(data)" class="vertical-align-content">
+        <ion-icon style="font-size: 3em;color: #00AB50;font-weight: 700;" name="arrow-forward-circle"></ion-icon>
+      </ion-col>
+  </ion-row>
+  </div>
+
+</ion-content>

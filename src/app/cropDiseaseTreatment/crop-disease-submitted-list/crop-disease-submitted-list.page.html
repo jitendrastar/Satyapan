@@ -1,0 +1,91 @@
+<ion-header class="header">
+  <ion-toolbar>
+      <ion-title *ngIf="httpClient.currentLanguage=='english'">Crop Disease and Treatment</ion-title>
+      <ion-title *ngIf="httpClient.currentLanguage=='hindi'">फसल रोग उपचार</ion-title>
+      <ion-buttons slot="end">
+          <ion-button color="primary" slot="end" (click)="ionViewWillEnter()">
+              <ion-icon color="primary" name="refresh-circle-outline"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="httpClient.userList.length>0" (click)="changeRole()">
+              <span *ngIf="httpClient.currentLanguage=='english'">Change Role</span>
+              <span *ngIf="httpClient.currentLanguage=='hindi'">रोल बदले </span>
+          </ion-button>
+          <ion-button (click)="httpClient.changeLanguage()">
+              <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+                      class="lang_change_color">/अ</span></span>
+              <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+                      class="lang_change_color">/A</span></span>
+          </ion-button>
+          <ion-button *ngIf="httpClient.currentLanguage=='english'" (click)="logoutPopUp()">
+              <ion-icon style="font-size: 1.5em;margin-right: 5px" name="person-circle-outline"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="httpClient.currentLanguage=='hindi'" (click)="logoutPopUp()">
+              <ion-icon style="font-size: 1.5em;margin-right: 5px" name="person-circle-outline"></ion-icon>
+          </ion-button>
+          <ion-button (click)="home()">
+              <ion-icon name="home-outline"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+ 
+  <ion-row class="ion-padding row_notifications" *ngFor="let item of diseaseSubmittedList; let i = index" (click)="openRequestDetailPage(item)">
+      <ion-col size="12" class="ion-no-padding">
+    <ion-row class="ion-no-padding">
+      <ion-col size="3" class="ion-no-padding">
+        <ion-avatar class="ion-no-padding userImg">
+          <img class="slider_img" *ngIf="item.IMG_FileName == '' || item.IMG_FileName == null"  src="../../assets/imgs/No_image_available.png" />
+          <img class="slider_img" *ngIf="item.IMG_FileName != ''"  src="{{item.IMG_FileName.split('@')[0]}}" />
+        </ion-avatar>
+      </ion-col>
+      <ion-col size="7" class="content_col">
+        <ion-row>
+          <ion-col size="6" class="ion-no-padding ion-text-start">
+            <span class="fontSpanGray slider_text" *ngIf="httpClient.currentLanguage=='english'">Ticket No. </span>
+            <span class="fontSpanGray slider_text" *ngIf="httpClient.currentLanguage=='hindi'">टिकट संख्या </span>
+          </ion-col>
+          <ion-col size="6" class="ion-no-padding ion-text-start">
+            <span class="fontSpan">: </span>
+            <span class="fontSpan detail_val slider_text"> {{item.TicketNo}}</span> 
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6" class="ion-no-padding ion-text-start">
+            <span class="fontSpanGray slider_text" *ngIf="httpClient.currentLanguage=='english'">Crop Name </span>
+            <span class="fontSpanGray slider_text" *ngIf="httpClient.currentLanguage=='hindi'">फसल का नाम </span>
+          </ion-col>
+          <ion-col size="6" class="ion-no-padding ion-text-start">
+            <span class="fontSpan">: </span>
+            <span class="fontSpan slider_text" *ngIf="httpClient.currentLanguage=='english'">{{item.AgriLovEn}} </span>
+            <span class="fontSpan slider_text" *ngIf="httpClient.currentLanguage=='hindi'">{{item.AgriLovHi}} </span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6" class="ion-no-padding ion-text-start">
+            <span class="fontSpanGray slider_text" *ngIf="httpClient.currentLanguage=='english'">Date </span>
+            <span class="fontSpanGray slider_text" *ngIf="httpClient.currentLanguage=='hindi'">दिनांक </span>
+          </ion-col>
+          <ion-col size="6" class="ion-no-padding ion-text-start">
+            <span class="fontSpan">: </span>
+            <span class="fontSpan detail_val slider_text"> {{item.CreationDate | date: 'dd/MM/yyyy'}}</span> 
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col size="2">
+        <ion-icon name="notifications-outline" class="ic_notify"></ion-icon>
+      </ion-col>
+    </ion-row>
+      </ion-col>
+    </ion-row>
+
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openDiseaseRequestPage()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

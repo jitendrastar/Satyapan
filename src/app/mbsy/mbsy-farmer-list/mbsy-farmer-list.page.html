@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button slot="start"></ion-back-button>
+    <ion-title>MBSY - Farmer List</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="httpClient.changeLanguage()">
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+            class="lang_change_color">/अ</span></span>
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+            class="lang_change_color">/A</span></span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <table *ngIf="groupList && groupList.length > 0">
+    <tr class="header_row">
+      <th>
+        <span *ngIf="httpClient.currentLanguage=='english'">Member ID</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">सदस्य आईडी</span>
+      </th>
+      <th>
+        <span *ngIf="httpClient.currentLanguage=='english'">Member Name</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">सदस्य का नाम</span>
+      </th>
+      <th>
+        <span *ngIf="httpClient.currentLanguage=='english'">Father Name</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">पिता का नाम</span>
+      </th>
+      <th></th>
+    </tr>
+    <ng-template></ng-template>
+    <!-- <tr *ngFor="let item of optionalArray; let i=index;"> -->
+    <tr *ngFor="let item of groupList; let i = index">
+      <td>
+        <p>{{item.MemberId}}</p>
+      </td>
+      <td>
+        <p>{{item.FarmerName}}</p>
+      </td>
+      <td>
+        <p>{{item.FatherName}}</p>
+      </td>
+      <td>
+        <ion-icon *ngIf="selectedGroup && (!selectedGroup.IsGroupCompleted || selectedGroup.IsGroupCompleted == 'False')" name="trash" color="danger" (click)="removeFarmerPrompt(item, i)" style="font-size: 24px;"></ion-icon>
+      </td>
+    </tr>
+  </table>
+
+</ion-content>
+
+<ion-footer *ngIf="selectedGroup && selectedGroup.FarmerCounts && selectedGroup.FarmerCounts > 0 && (!selectedGroup.IsGroupCompleted || selectedGroup.IsGroupCompleted == 'False')">
+  <ion-toolbar>
+    <ion-row >
+      <!-- <ion-col size="6">
+        <ion-button expand="full" (click)="partialSaveGroupData()">Partial Save</ion-button>
+      </ion-col> -->
+      <ion-col size="12" >
+        <ion-button expand="full" (click)="finalSaveGroupDataPrompt()">Group Completed</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

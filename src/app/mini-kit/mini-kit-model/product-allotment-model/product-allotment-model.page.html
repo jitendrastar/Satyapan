@@ -1,0 +1,262 @@
+<ion-header class="header">
+  <ion-toolbar>
+    <ion-title *ngIf="httpClient.currentLanguage=='english'">Minikit Distribution</ion-title>
+    <ion-title *ngIf="httpClient.currentLanguage=='hindi'">मिनीकिट वितरण</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="httpClient.changeLanguage()">
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+            class="lang_change_color">/अ</span></span>
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+            class="lang_change_color">/A</span></span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="!isAlterMobileSection">
+
+    <ion-card *ngIf="janAadhaarData && janAadhaarData.IsPhotoRequired && janAadhaarData.IsPhotoRequired == '1'">
+      <ion-row>
+        <ion-col style="align-items: center; display: inline-grid; padding: 16px;" size="6">
+          <ion-button (click)="takePhoto()">
+            <span *ngIf="httpClient.currentLanguage=='english'">Take Photo</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">फोटो ले</span>
+          </ion-button>
+        </ion-col>
+        <ion-col size="6" *ngIf="displayImage">
+          <img style="float: right;" [src]="displayImage" width="120px" height="120px" />
+        </ion-col>
+      </ion-row>
+    </ion-card>
+
+    <form #verifyForm="ngForm" (ngSubmit)="verifyOtp()" style="width: 100%">
+      <ion-row>
+        <ion-col size="12" class="txt_enterOTP">
+          <ion-label *ngIf="httpClient.currentLanguage=='english'">Please enter OTP received on allocating member's
+            registered mobile number.</ion-label>
+          <ion-label *ngIf="httpClient.currentLanguage=='hindi'">कृपया अपने पंजीकृत मोबाइल नंबर पर प्राप्त ओटीपी दर्ज
+            करें।</ion-label>
+        </ion-col>
+        <ion-col size="12" class="ion-text-center">
+          <ion-item style="--ion-background-color:#ffffff;" lines="none" class="ion-text-center">
+            <ng-otp-input style="width: 100%;" (onInputChange)="onOtpChange($event)"
+              [config]="{length:6,allowNumbersOnly:true}"></ng-otp-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="12" class="ion-text-center">
+          <ion-buttons>
+            <ion-button class="login_btn" type="Submit" [disabled]="!verifyForm.valid">
+              <span *ngIf="httpClient.currentLanguage=='english'">Verify OTP</span>
+              <span *ngIf="httpClient.currentLanguage=='hindi'">ओटीपी सत्यापित करें</span>
+            </ion-button>
+          </ion-buttons>
+        </ion-col>
+
+        <ion-col size="12" class="ion-text-center">
+          <ion-button class="reSendText" fill="clear" (click)="sendOtp()" *ngIf=" reSendBtn">
+            <span *ngIf="httpClient.currentLanguage=='english'">Resend OTP?</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">ओटीपी पुनः भेजें?</span>
+          </ion-button>
+          <ion-button class="reSendText" fill="clear" *ngIf=" !reSendBtn">{{resendOTPTimer}}</ion-button>
+        </ion-col>
+
+        <ion-col size="12" class="ion-text-center" style="margin-top: 16px;">
+          <ion-row>
+            <ion-col size="5">
+              <ion-item-divider>
+              </ion-item-divider>
+            </ion-col>
+            <ion-col size="2" style="padding: 0 6px;">
+              OR
+            </ion-col>
+            <ion-col size="5">
+              <ion-item-divider>
+              </ion-item-divider>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+
+        <ion-col size="12" class="ion-text-center">
+          <ion-button fill="outline" (click)="getJanAadhaarFamilyDetails();">
+            <span style="font-weight: bold;" *ngIf="httpClient.currentLanguage=='english'">Other Option</span>
+            <span style="font-weight: bold;" *ngIf="httpClient.currentLanguage=='hindi'">अन्य विकल्प</span>
+          </ion-button>
+        </ion-col>
+
+      </ion-row>
+    </form>
+  </div>
+
+  <div *ngIf="isAlterMobileSection">
+
+    <!-- <div *ngIf="!isSentOTPOnAlterMobile"> -->
+    <div>
+      <ion-row style="justify-content: center; margin-top: 10px;">
+        <!-- <ion-list lines="none" *ngIf="janAadhaarData && janAadhaarData.MOBILE_NO && janAadhaarData.MOBILE_NO != ''">
+          <ion-radio-group allow-empty-selection="true" name="radio-group" (ionChange)="radioGroupAlterMobile($event)" #radioGroup>
+            <ion-list-header style="padding: 0;">
+              <ion-label *ngIf="httpClient.currentLanguage=='english'">Do you want to sent OTP on {{janAadhaarData.MOBILE_NO}} ?</ion-label>
+              <ion-label *ngIf="httpClient.currentLanguage=='hindi'">क्या आप {{janAadhaarData.MOBILE_NO}} पर ओटीपी भेजना चाहते हैं?</ion-label>
+            </ion-list-header>
+            <ion-row>
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='english'">Yes</ion-label>
+                  <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='hindi'">हाँ</ion-label>
+                  <ion-radio style="margin-right: 8px;" slot="start" value="yes"></ion-radio>
+                </ion-item>
+              </ion-col>
+
+              <ion-col size="6">
+                <ion-item>
+                  <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='english'">No</ion-label>
+                  <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='hindi'">नहीं</ion-label>
+                  <ion-radio style="margin-right: 8px;" slot="start" value="no"></ion-radio>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-radio-group>
+        </ion-list> -->
+
+        <ion-list lines="none" style="width: 100% !important;">
+          <ion-radio-group name="radio-group" (ionChange)="radioGroupMemberChange($event)"
+            #radioGroup>
+            <ion-list-header style="color: #0baf58 ;">
+              <ion-label>{{httpClient.currentLanguage == 'english' ? 'Select Member Name' : 'सदस्य का नाम चुनें'}}
+              </ion-label>
+            </ion-list-header>
+            <ion-row *ngFor="let item of memberList">
+              <ion-col size="8">
+                <ion-item>
+                  <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='english'">{{item.NAME}}
+                  </ion-label>
+                  <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='hindi'">{{item.NAME_HINDI}}
+                  </ion-label>
+                  <ion-radio style="margin-right: 8px;" slot="start" value="{{item.JAN_MEMBER_ID}}"></ion-radio>
+                </ion-item>
+              </ion-col>
+              <ion-col size="4">
+                <ion-item>
+                  <ion-label style="font-size: 14px;">{{item.MOBILE_NO}}</ion-label>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <!-- <ion-row style="height: 13%;">
+              <ion-col size="12">
+                <ion-item>
+                  <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='english'">Other</ion-label>
+                  <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='hindi'">अन्य</ion-label>
+                  <ion-radio style="margin-right: 8px;" slot="start" value="other"></ion-radio>
+                </ion-item>
+              </ion-col>
+            </ion-row> -->
+          </ion-radio-group>
+
+          <ion-radio-group allow-empty-selection="true" name="radio-group" (ionChange)="radioGroupOther($event)"
+            #radioGroup>
+            <ion-list-header style="color: #0baf58 ;">
+              <ion-label>{{httpClient.currentLanguage=='english' ? 'Select Other Mobile No' : 'अन्य मोबाइल नंबर चुनें'}}
+              </ion-label>
+            </ion-list-header>
+            <ion-row style="height: 13%;">
+              <ion-col size="12">
+                <ion-item>
+                  <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='english'">Other</ion-label>
+                  <ion-label style="font-size: 14px;" *ngIf="httpClient.currentLanguage=='hindi'">अन्य</ion-label>
+                  <ion-radio style="margin-right: 8px;" slot="start" value="other"></ion-radio>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-radio-group>
+        </ion-list>
+
+        <!-- <div style="color: #0a9d00;">OR</div> -->
+
+        <ion-col size="12" class="ion-text-center" *ngIf="alternateMobileRadio && alternateMobileRadio == 'yes'">
+          <ion-item style="--ion-background-color:#ffffff;" lines="none" class="ion-text-center">
+            <ion-input type="tel" maxlength="10"
+              [placeholder]="httpClient.currentLanguage=='hindi' ? 'वैकल्पिक मोबाइल नंबर' : 'Alternate Mobile Number'"
+              [(ngModel)]="alternateMobile" style="width: 100%; border: 1px solid #dedede;"></ion-input>
+            <ion-icon name="phone-portrait" style="position: absolute; top: auto; left: 6px;"></ion-icon>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="12" class="ion-text-center">
+          <ion-buttons>
+            <ion-button class="login_btn" (click)="sendAlterMobileOtp()" [disabled]="!reSendBtn">
+              <span *ngIf="httpClient.currentLanguage=='english'">Send OTP</span>
+              <span *ngIf="httpClient.currentLanguage=='hindi'">ओटीपी भेजें</span>
+            </ion-button>
+          </ion-buttons>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <div *ngIf="isSentOTPOnAlterMobile" style="border-top: 2px solid #999; margin: 30px 0 30px;">
+
+      <ion-card *ngIf="janAadhaarData && janAadhaarData.IsPhotoRequired && janAadhaarData.IsPhotoRequired == '1'">
+        <ion-row>
+          <ion-col style="align-items: center; display: inline-grid; padding: 16px;" size="6">
+            <ion-button (click)="takePhoto()">
+              <span *ngIf="httpClient.currentLanguage=='english'">Take Photo</span>
+              <span *ngIf="httpClient.currentLanguage=='hindi'">फोटो ले</span>
+            </ion-button>
+          </ion-col>
+          <ion-col size="6" *ngIf="displayImage">
+            <img style="float: right;" [src]="displayImage" width="120px" height="120px" />
+          </ion-col>
+        </ion-row>
+      </ion-card>
+
+      <form #verifyForm="ngForm" (ngSubmit)="verifyAlterMobileOtp()" style="width: 100%">
+        <ion-row>
+          <ion-col size="12" class="txt_enterOTP">
+            <ion-label>{{httpClient.currentLanguage == 'hindi' ? 'कृपया मोबाइल नंबर पर प्राप्त ओटीपी दर्ज करें।' :
+              'Please enter OTP received on mobile number.'}}</ion-label>
+          </ion-col>
+
+          <ion-col size="12" class="ion-text-center">
+            <ion-item style="--ion-background-color:#ffffff;" lines="none" class="ion-text-center">
+              <ng-otp-input style="width: 100%;" (onInputChange)="onOtpChange($event)"
+                [config]="{length:6,allowNumbersOnly:true}"></ng-otp-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="12" class="ion-text-center">
+            <ion-buttons>
+              <ion-button class="login_btn" type="Submit" [disabled]="!verifyForm.valid">
+                <span *ngIf="httpClient.currentLanguage=='english'">Verify OTP</span>
+                <span *ngIf="httpClient.currentLanguage=='hindi'">ओटीपी सत्यापित करें</span>
+              </ion-button>
+            </ion-buttons>
+          </ion-col>
+
+          <ion-col size="12" class="ion-text-center">
+            <ion-button class="reSendText" fill="clear" (click)="sendAlterMobileOtp()" *ngIf="reSendBtn">
+              <span *ngIf="httpClient.currentLanguage=='english'">Resend OTP?</span>
+              <span *ngIf="httpClient.currentLanguage=='hindi'">ओटीपी पुनः भेजें?</span>
+            </ion-button>
+            <ion-button class="reSendText" fill="clear" *ngIf="!reSendBtn">{{resendOTPTimer}}</ion-button>
+          </ion-col>
+
+        </ion-row>
+      </form>
+    </div>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-row>
+    <ion-col>
+      <ion-buttons>
+        <ion-button class="btn_dismiss_modal" (click)="dismissModel()">
+          <span *ngIf="httpClient.currentLanguage=='english'">Cancel</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">रद्द करें</span>
+          <ion-icon name="backspace" class="ic_backspace"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-col>
+  </ion-row>
+</ion-footer>

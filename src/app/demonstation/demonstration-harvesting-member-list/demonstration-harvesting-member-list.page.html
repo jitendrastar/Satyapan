@@ -1,0 +1,168 @@
+<ion-header class="header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-buttons>
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+    </ion-buttons>
+    <ion-title *ngIf="httpClient.currentLanguage=='english'">Allocated Harvesting Members</ion-title>
+    <ion-title *ngIf="httpClient.currentLanguage=='hindi'">आवंटित फसल काटने वालो की सदस्य सूची</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="httpClient.changeLanguage()">
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+            class="lang_change_color">/अ</span></span>
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+            class="lang_change_color">/A</span></span>
+      </ion-button>
+      <ion-button *ngIf="httpClient.userList.length>0" (click)="changeRole()">
+        <ion-icon name="people" style="font-size: 1.5em;"></ion-icon>
+      </ion-button>
+      <ion-button (click)="logoutPopUp()">
+        <ion-icon style="font-size: 1.5em;margin-right: 5px" name="person-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="home()">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <table>
+    <tr class="header_row">
+      <th>
+        <span *ngIf="httpClient.currentLanguage=='english'">ID</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">आईडी</span>
+      </th>
+      <th style="text-align: center!important;">
+        <span *ngIf="httpClient.currentLanguage=='english'">Member Name</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">सदस्य का नाम</span>
+      </th>
+      <th>
+        <span *ngIf="httpClient.currentLanguage=='english'">Member ID</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">सदस्य आईडी</span>
+      </th>
+      <th>
+      </th>
+    </tr>
+    <ng-template></ng-template>
+  </table>
+
+  <ion-card class="expandable_card" *ngFor="let item of asList; let i = index">
+    <ion-row class="expandable_row">
+      <ion-col size=2>
+        <span>{{item.Id}}</span>
+      </ion-col>
+      <ion-col size=5>
+        <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">{{item.Name}} </span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">{{item.Name_Hi}}</span>
+      </ion-col>
+      <ion-col size=4>
+        <span class="card_heading">{{item.MemberId}} </span>
+      </ion-col>
+      <ion-col class="ion-text-right ion-no-padding ic_expand">
+        <ion-icon name="remove" *ngIf="asCardIndex == i && isExpandable == true" (click)="expandCard(i,false)"></ion-icon>
+        <ion-icon name="add" *ngIf="asCardIndex == i && isExpandable == false" (click)="expandCard(i,true, item)"></ion-icon>
+        <ion-icon name="add" *ngIf="asCardIndex != i && isExpandable == true" (click)="expandCard(i,true, item)"></ion-icon>
+        <ion-icon name="add" *ngIf="asCardIndex != i && isExpandable == false" (click)="expandCard(i,true, item)"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <div class="expandable_row" *ngIf="asCardIndex == i && isExpandable == true && harvestingDetails">
+
+      <ion-row>
+        <ion-col size=4>
+          <span *ngIf="httpClient.currentLanguage=='english'">Seed Name</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">बीज का नाम</span>
+        </ion-col>
+        <ion-col size=4>
+          <span *ngIf="httpClient.currentLanguage=='english'">Control Plan</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">नियंत्रण योजना</span>
+        </ion-col>
+        <ion-col size=4 style="display:flex !important; align-items:center !important">
+          <span *ngIf="httpClient.currentLanguage=='english'">Mini Kit</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">मिनी किट </span>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col class="card_heading">
+          <span *ngIf="httpClient.currentLanguage=='english'">{{harvestingDetails.DemonstrationNameEng}}</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">{{harvestingDetails.DemonstrationNameHindi}}</span>
+        </ion-col>
+
+        <ion-col class="card_heading">
+          <ion-item class="filter_item" lines="none" *ngIf="httpClient.currentLanguage=='english'">
+            <ion-select [(ngModel)]="selectedControlPlanValuesId">
+              <ion-select-option *ngFor="let item of agriLovValuesByAgriLovCode" value="{{item.AgriLovValuesId}}">
+                <span>{{item.AgriLovEn}}</span>
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="filter_item" lines="none" *ngIf="httpClient.currentLanguage=='hindi'">
+            <ion-select [(ngModel)]="selectedControlPlanValuesId">
+              <ion-select-option *ngFor="let item of agriLovValuesByAgriLovCode" value="{{item.AgriLovValuesId}}">
+                <span>{{item.AgriLovHi}}</span>
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+
+        <ion-col class="card_heading">
+          <ion-item class="filter_item" lines="none" *ngIf="httpClient.currentLanguage=='english'">
+            <ion-select [(ngModel)]="selectedMiniKitValuesId">
+              <ion-select-option *ngFor="let item of agriLovValuesByAgriLovCode" value="{{item.AgriLovValuesId}}">
+                <span>{{item.AgriLovEn}}</span>
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="filter_item" lines="none" *ngIf="httpClient.currentLanguage=='hindi'">
+            <ion-select [(ngModel)]="selectedMiniKitValuesId">
+              <ion-select-option *ngFor="let item of agriLovValuesByAgriLovCode" value="{{item.AgriLovValuesId}}">
+                <span>{{item.AgriLovHi}}</span>
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+
+        <!-- <ion-col class="card_heading">
+          <ion-datetime class="inp_value_assign_as" displayFormat="DD/MM/YYYY"[placeholder]="httpClient.currentLanguage=='english' ? 'Select Date' : 'तारीख़ चुनें'" [(ngModel)]="sowingDate"></ion-datetime>
+        </ion-col> -->
+      </ion-row>
+
+      <ion-row>
+        <ion-col size=4 style="display:flex !important; align-items:center !important">
+          <span *ngIf="httpClient.currentLanguage=='english'">Remark</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">टिप्पणी </span>
+        </ion-col>
+        <ion-col class="card_heading">
+          <ion-textarea class="inp_value_assign_as" [(ngModel)]="remark"
+          rows="3" [placeholder]="httpClient.currentLanguage=='english' ? 'Type remark here..' : 'यहां टिप्पणी टाइप करें..'"></ion-textarea>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button class="btn_viewLit" (click)="saveDemonstrationProductAllotment()">
+            <span *ngIf="httpClient.currentLanguage=='english'">Submit</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">Submit</span>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-card>
+
+</ion-content>
+
+<!-- <ion-footer>
+  <ion-row>
+    <ion-col>
+      <ion-buttons>
+        <ion-button class="btn_viewLit" (click)="viewHarvestingMemberList()">
+          <span *ngIf="httpClient.currentLanguage=='english'">View Allocated Harvesting Member</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">आवंटित बुवाई की सदस्य सूची देखें </span>
+          <ion-icon name="arrow-forward-circle" class="ic_forward_arrow"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-col>
+  </ion-row>
+</ion-footer> -->

@@ -1,0 +1,105 @@
+<ion-header class="header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-buttons>
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+    </ion-buttons>
+    <ion-title *ngIf="httpClient.currentLanguage=='english'">Demonstration AS Level</ion-title>
+    <ion-title *ngIf="httpClient.currentLanguage=='hindi'">प्रदर्शन एएस स्तर</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="httpClient.changeLanguage()">
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+            class="lang_change_color">/अ</span></span>
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+            class="lang_change_color">/A</span></span>
+      </ion-button>
+      <ion-button *ngIf="httpClient.userList.length>0" (click)="changeRole()">
+        <ion-icon name="people" style="font-size: 1.5em;"></ion-icon>
+      </ion-button>
+      <ion-button (click)="logoutPopUp()">
+        <ion-icon style="font-size: 1.5em;margin-right: 5px" name="person-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="home()">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card class="filter_card ion-text-center">
+    <ion-row>
+      <ion-col size="12" class="ion-text-center">
+        <ion-input type="text" placeholder="Jan Aadhar Number" class="filter_item" [(ngModel)]="janAadharNo"></ion-input>
+      </ion-col>
+      <ion-col class="btn_getDetail">
+        <ion-buttons>
+          <ion-button class="login_btn" (click)="getAllotmentDetailAS()">
+            <span *ngIf="httpClient.currentLanguage=='english'">Get Detail</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">विवरण प्राप्त करें</span>
+          </ion-button>
+        </ion-buttons>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+  <div style="overflow-x:auto;" *ngIf="asTargetCompleteList.length > 0">
+      <table>
+      <tr class="header_row">
+        <th>
+          <span *ngIf="httpClient.currentLanguage=='english'">Member ID</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">सदस्य आईडी</span>
+        </th>
+        <th>
+          <span *ngIf="httpClient.currentLanguage=='english'">Member Name</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">सदस्य का नाम</span>
+        </th>
+        <th>
+          <span *ngIf="httpClient.currentLanguage=='english'">Mobile No.</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">मोबाइल नंबर</span>
+        </th>
+      </tr>
+      <ng-template></ng-template>
+      <!-- <tr *ngFor="let item of optionalArray; let i=index;"> -->
+      <tr *ngFor="let item of asTargetCompleteList; let i = index" class="list_content">
+        <td>
+          <p>{{item.JAN_MEMBER_ID}}</p>
+        </td>
+        <td>
+          <p *ngIf="httpClient.currentLanguage=='english'">{{item.NAME}}</p>
+          <p *ngIf="httpClient.currentLanguage=='hindi'">{{item.NAME_HINDI}}</p>
+        </td>
+        <td>
+          <p>{{item.MOBILE_NO}}</p>
+        </td>
+      </tr>
+
+    </table>
+    <ion-row>
+      <ion-col class="btn_getDetail">
+        <ion-buttons>
+          <ion-button class="login_btn" (click)="saveAsTargetList()">
+            <span *ngIf="httpClient.currentLanguage=='english'">Save</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">जमा करें </span>
+          </ion-button>
+        </ion-buttons>
+      </ion-col>
+    </ion-row>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-row>
+    <ion-col>
+      <ion-buttons>
+        <ion-button class="btn_viewLit" (click)="viewMemberList()">
+          <span *ngIf="httpClient.currentLanguage=='english'">View submitted member list</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">सबमिट की गई सदस्य सूची देखें </span>
+          <ion-icon name="arrow-forward-circle" class="ic_forward_arrow"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-col>
+  </ion-row>
+</ion-footer>

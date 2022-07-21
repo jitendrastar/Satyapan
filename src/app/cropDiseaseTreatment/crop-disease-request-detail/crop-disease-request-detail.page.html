@@ -1,0 +1,76 @@
+<ion-header class="header">
+  <ion-toolbar>
+      <ion-title *ngIf="httpClient.currentLanguage=='english'">Crop Disease and Treatment</ion-title>
+      <ion-title *ngIf="httpClient.currentLanguage=='hindi'">फसल रोग उपचार</ion-title>
+      <ion-buttons slot="end">
+          <ion-button color="primary" slot="end" (click)="ionViewWillEnter()">
+              <ion-icon color="primary" name="refresh-circle-outline"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="httpClient.userList.length>0" (click)="changeRole()">
+              <span *ngIf="httpClient.currentLanguage=='english'">Change Role</span>
+              <span *ngIf="httpClient.currentLanguage=='hindi'">रोल बदले </span>
+          </ion-button>
+          <ion-button (click)="httpClient.changeLanguage()">
+              <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+                      class="lang_change_color">/अ</span></span>
+              <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+                      class="lang_change_color">/A</span></span>
+          </ion-button>
+          <ion-button *ngIf="httpClient.currentLanguage=='english'" (click)="logoutPopUp()">
+              <ion-icon style="font-size: 1.5em;margin-right: 5px" name="person-circle-outline"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="httpClient.currentLanguage=='hindi'" (click)="logoutPopUp()">
+              <ion-icon style="font-size: 1.5em;margin-right: 5px" name="person-circle-outline"></ion-icon>
+          </ion-button>
+          <ion-button (click)="home()">
+              <ion-icon name="home-outline"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-row>
+    <ion-col size=4 class="ion-text-center">
+      <ion-label class="fontSpan" *ngIf="httpClient.currentLanguage=='english'">Crop : </ion-label>
+      <ion-label class="fontSpan" *ngIf="httpClient.currentLanguage=='hindi'">फसल : </ion-label>
+      <ion-label *ngIf="httpClient.currentLanguage=='english'" class="fontSpanRes">{{requestData.seedKindNm}}</ion-label>
+      <ion-label *ngIf="httpClient.currentLanguage=='hindi'" class="fontSpanRes">{{requestData.seedKindHi}}</ion-label>
+      <ion-label  style="float: right;">|</ion-label>
+    </ion-col>
+    <ion-col size=4 class="ion-text-center">
+      <ion-label class="fontSpan" *ngIf="httpClient.currentLanguage=='english'">Season : </ion-label>
+      <ion-label class="fontSpan" *ngIf="httpClient.currentLanguage=='hindi'">मौसम : </ion-label>
+      <ion-label *ngIf="httpClient.currentLanguage=='english'" class="fontSpanRes">{{requestData.AgriLovEn}}</ion-label>
+      <ion-label *ngIf="httpClient.currentLanguage=='hindi'" class="fontSpanRes">{{requestData.AgriLovHi}}</ion-label>
+      <ion-label  style="float: right;">|</ion-label>
+    </ion-col>
+    <ion-col size=4 class="ion-text-center">
+      <ion-label class="fontSpan" *ngIf="httpClient.currentLanguage=='english'">Disease : </ion-label>
+      <ion-label class="fontSpan" *ngIf="httpClient.currentLanguage=='hindi'">रोग : </ion-label>
+      <ion-label *ngIf="httpClient.currentLanguage=='english'" class="fontSpanRes">Unknown</ion-label>
+      <ion-label *ngIf="httpClient.currentLanguage=='hindi'" class="fontSpanRes">Unknown</ion-label>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-margin-top">
+    <ion-col size=3 *ngFor="let item of upladedImgList">
+      <img src="{{item}}" class="disease_img">
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="advise_row ion-margin-top" *ngIf="requestData.Advisory != ''">
+    <ion-col>
+      <ion-label>{{requestData.Advisory}}</ion-label>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="advise_row ion-margin-top" *ngIf="requestData.Advisory == ''">
+    <ion-col class="ion-text-center">
+      <ion-label *ngIf="httpClient.currentLanguage=='english'">Wait for reply.....</ion-label>
+      <ion-label *ngIf="httpClient.currentLanguage=='english'">उत्तर की प्रतीक्षा करें .....</ion-label>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

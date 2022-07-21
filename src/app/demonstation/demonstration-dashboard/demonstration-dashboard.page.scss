@@ -1,0 +1,115 @@
+.filter_card{
+    padding: 5px;
+    margin: 0;
+    box-shadow: 0 0 20px #0000002b;
+}
+
+.filter_item{   
+    border-bottom: 1px solid #b9b9b9;
+    --padding-start: 5px;
+    --inner-padding-end: 0px !important;
+    --min-height: 35px;
+}
+
+.select-icon {
+    color: green;
+}
+
+.filter_item .item-inner{
+    padding-inline-end: 5px !important;
+}
+
+.filter_card ion-col{
+    padding: 0 2px 2px 5px;
+}
+
+.filter_heading{
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.filter_item ion-select{
+    font-size: 12px;
+    color: green;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.login_btn {
+    border-radius: 50px;
+    width: 80%;
+    height: 40px;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin: 0 auto;
+    margin-top: 5px;
+    display: block;
+    box-shadow: none;
+    border: 1px solid #0baf58;
+    color: #ffffff;
+    background: -webkit-linear-gradient(
+    0deg, #0baf58 0%, #66eea6 100%);    
+  }
+
+.login_btn ion-icon{
+    margin-left: 5px;
+}
+
+.expandable_card{
+    margin: 20px 0px;
+    box-shadow: 0 0 20px #0000002b;
+}
+
+.expandable_row{
+    border-bottom: 1px solid #dedede;
+    padding: 10px;
+}
+
+.ic_expand ion-icon{
+    font-size: 20px;
+    color: #bfbfbf;
+    margin-top: 3px;
+}
+
+.span_serialNo{
+    padding: 5px 10px;
+    background: #d4f6d4;
+    border-radius: 50%;
+}
+
+.card_heading{
+    font-size: 13px;
+    span{
+        color: #00ab50;
+        font-weight: 500;
+    }
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even){background-color: #ffffff}
+  
+  .inp_value_assign_as{
+    width: 70px;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+    --padding-top: 6px;
+}
+
+.btn_getDetail{
+    display: block;
+    padding-top: 2px !important;
+    text-align: end;
+}
+  

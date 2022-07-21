@@ -1,0 +1,301 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-title *ngIf="httpClient.currentLanguage=='english'">Add Events</ion-title>
+    <ion-title *ngIf="httpClient.currentLanguage=='hindi'">कार्यक्रम जोड़ें</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+    <ion-button  (click)="logoutPopUp()">
+      <ion-icon style="font-size: 1.5em;margin-right: 5px" name="person-circle-outline"></ion-icon>
+  </ion-button></ion-buttons>
+   <!-- <div *ngIf="httpClient.currentLanguage=='english'" class="ion-text-center">
+      <p style="font-size: 1em">{{getPreVerificationData.FarmerName}}</p>
+      <span style="color: #969696;font-size: 0.8em;"> Village : </span><span
+        style="color: black;font-size: 0.8em;">{{getPreVerificationData.Village_Eng}} ,</span>
+      <span style="color: #969696;font-size: 0.8em;"> Tehsil : </span><span
+        style="color: black;font-size: 0.8em;">{{getPreVerificationData.BLOCK_ENG}}</span>
+      <span style="color: #969696;font-size: 0.8em;"> District : </span><span
+        style="color: black;font-size: 0.8em;">{{getPreVerificationData.DISTRICT_ENG}}</span>
+    </div>
+    <div *ngIf="httpClient.currentLanguage=='hindi'" class="ion-text-center paddingLeftRight">
+      <p style="font-size: 1em">{{getPreVerificationData.FarmerNameHnd}}</p>
+      <span style="color: #969696;font-size: 0.8em;"> गाँव : </span><span
+        style="color: black;font-size: 0.8em;">{{getPreVerificationData.Village_Mangal}} ,</span>
+      <span style="color: #969696;font-size: 0.8em;"> तहसील : </span><span
+        style="color: black;font-size: 0.8em;">{{getPreVerificationData.BLOCK_MANGAL}}</span>
+      <span style="color: #969696;font-size: 0.8em;"> जिला : </span><span
+        style="color: black;font-size: 0.8em;">{{getPreVerificationData.DISTRICT_MANGAL}}</span>
+    </div>-->
+
+    
+    <div slot="end" (click)="httpClient.changeLanguage()" class="ion-text-center paddingLeftRight">
+     <!-- <span
+        style="font-size: 0.7em;color: #00AB50;font-weight: 700;margin-top: 4px">{{getPreVerificationData.CreationDate}}</span><br>-->
+      <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+          class="lang_change_color">/अ</span></span>
+      <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+          class="lang_change_color">/A</span></span>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+ 
+  <div>
+      <!--<ion-row  style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+        
+        <ion-item  lines='none' style="width: 98%;margin: 0 auto;">
+         
+            <ion-label position="floating">
+              <span *ngIf="httpClient.currentLanguage=='english'">Event</span>
+              <span *ngIf="httpClient.currentLanguage=='hindi'">कार्यक्रम प्रकार</span>
+            </ion-label>
+            <ion-input type="text"  (ionInput)="IsNumeric($event)" id="eventtype" [(ngModel)]="eventtype"></ion-input>
+         
+         
+        </ion-item> 
+      </ion-row>-->
+      <ion-row  style="border:1px solid #e8e8e8;border-radius: 10px;">
+        <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+          <ion-label position="floating">
+            <span *ngIf="httpClient.currentLanguage=='english'">Scheme Name</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">योजना का नाम</span>
+          </ion-label>
+          <ion-select id="eventtype" disabled={{add_edit}}  [(ngModel)]="EventType" (ionChange)="getvalue_scheme()">
+            <ion-select-option  *ngFor="let data of listOfEVENTS;let i=index;" value="{{data.EventSchemeMasterId}}">
+             
+              <span  *ngIf="httpClient.currentLanguage=='english'"> {{data.EventSchemeEn}}</span>
+              <span  *ngIf="httpClient.currentLanguage=='hindi'"> {{data.EventSchemeHi}}</span>
+            </ion-select-option>
+          <!--  <ion-select-option value="no">
+              <span *ngIf="httpClient.currentLanguage=='english'">No</span>
+              <span *ngIf="httpClient.currentLanguage=='hindi'">नहीं</span>
+            </ion-select-option>-->
+          </ion-select>
+        </ion-item>
+      </ion-row>
+      <ion-row  *ngIf="other_show" style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+        <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+          <ion-label position="floating">
+            <span *ngIf="httpClient.currentLanguage=='english'">Scheme Other</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">योजना अन्य</span>
+          </ion-label>
+          <ion-input type="text"   id="schemeother" disabled={{add_edit}} [(ngModel)]="schemeother"></ion-input>
+        </ion-item>
+      </ion-row>
+
+      
+
+
+      <ion-row *ngIf="!other_show && EventType" style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+        <ion-item *ngIf="EventType" lines='none' style="width: 98%;margin: 0 auto;">
+          <ion-label position="floating">
+            <span *ngIf="httpClient.currentLanguage=='english'">Event Name</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">कार्यक्रम का नाम</span>
+          </ion-label>
+          <ion-select  id="EventActivityMasterId" disabled={{add_edit}} [(ngModel)]="EventActivityMasterId" (ionChange)="getvalue_activityscheme()">
+            <ion-select-option  *ngFor="let data of listOfEVENTSaction;" value="{{data.EventActivityMasterId}}">
+              <span *ngIf="httpClient.currentLanguage=='english'"> {{data.EventActivityEn}}</span>
+              <span  *ngIf="httpClient.currentLanguage=='hindi'"> {{data.EventActivityHi}}</span>
+              <span lang="{{data.Isother}}" id="EventActivityMasterIdother{{data.EventActivityMasterId}}"></span>
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-row>
+<div *ngIf="!add_edit" >
+  <ion-row *ngIf="other_show2" style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+    <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+      <ion-label position="floating">
+        <span *ngIf="httpClient.currentLanguage=='english'">Event Name(Other)</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">कार्यक्रम का नाम(अन्य)</span>
+      </ion-label>
+      <ion-input type="text" disabled={{add_edit}}  id="EventNames" [(ngModel)]="EventName"></ion-input>
+    </ion-item>
+  </ion-row>
+  <ion-row *ngIf="other_show" style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+    <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+      <ion-label position="floating">
+        <span *ngIf="httpClient.currentLanguage=='english'">Event Name</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">कार्यक्रम का नाम</span>
+      </ion-label>
+      <ion-input type="text" disabled={{add_edit}}  id="EventName" [(ngModel)]="EventName"></ion-input>
+    </ion-item>
+  </ion-row>
+</div>
+     
+
+      <ion-row *ngIf="(add_edit && other_show) || add_edit && other_show2" style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+        <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+          <ion-label position="floating">
+            <span *ngIf="httpClient.currentLanguage=='english'">Event Name</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">कार्यक्रम का नाम</span>
+          </ion-label>
+          <ion-input type="text" disabled={{add_edit}}  id="EventName2" [(ngModel)]="EventName2"></ion-input>
+        </ion-item>
+      </ion-row>
+
+      <ion-row  style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+        <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+          <ion-label position="floating">
+            <span *ngIf="httpClient.currentLanguage=='english'">Department</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">विभाग</span>
+          </ion-label>
+          <ion-select  id="DepartmentId" disabled={{add_edit}} [(ngModel)]="DepartmentId">
+            <ion-select-option  *ngFor="let data of listOfDepartmentTS;" value="{{data.DeptId}}">
+              <span *ngIf="httpClient.currentLanguage=='english'"> {{data.DeptNameEn}}</span>
+              <span  *ngIf="httpClient.currentLanguage=='hindi'"> {{data.DeptNameHi}}</span>
+            </ion-select-option>
+     
+          </ion-select>
+        </ion-item>
+      </ion-row>
+
+
+      <!--<ion-row  style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+        
+        <ion-item  lines='none' style="width: 98%;margin: 0 auto;">
+         
+            <ion-label position="floating">
+              <span *ngIf="httpClient.currentLanguage=='english'">Department</span>
+              <span *ngIf="httpClient.currentLanguage=='hindi'">विभाग</span>
+            </ion-label>
+            <ion-input type="text"  (ionInput)="IsNumeric($event)" id="eventtype" [(ngModel)]="eventtype"></ion-input>
+         
+         
+        </ion-item> 
+      </ion-row>-->
+ 
+ 
+  
+ 
+
+ 
+
+  <ion-row  style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+    <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+      <ion-label position="floating">
+        <span *ngIf="httpClient.currentLanguage=='english'">Place of Event</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">कार्यक्रम का स्थान</span>
+      </ion-label>
+      <ion-input type="text"  disabled={{add_edit}} id="EventPlace" [(ngModel)]="EventPlace"></ion-input>
+    </ion-item>
+  </ion-row>
+
+
+  
+ <!-- <ion-item>
+    <ion-label position="stacked" style="color: #000000">Forward to</ion-label>
+    <ion-input style="font-size: 0.8em;color: #000000" [ngModel]="asName" ></ion-input>
+  </ion-item>-->
+
+
+  <ion-row  style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+    <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+      <ion-label position="floating">
+        <span *ngIf="httpClient.currentLanguage=='english'">Date of Event</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">कार्यक्रम की तिथि </span>
+      </ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY"  disabled={{add_edit}} max="2099-10-31" placeholder="{{httpClient.currentLanguage =='english' ? 'Date' : 'दिनांक'}}" min="{{dateTime}}" [(ngModel)]="EventDate"></ion-datetime>
+      <ion-icon color="secondary" slot="end" name="calendar-outline"></ion-icon>
+    </ion-item>
+  </ion-row>
+
+  <ion-row style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top add_photo" >
+    <ion-col size="6" style="text-align: center; display: inline-block;">
+      <ion-label style="font-size: 0.9rem; text-align: center; display: block;" *ngIf="httpClient.currentLanguage=='english'">Upload Event First Photo</ion-label>
+      <ion-label style="font-size: 0.9rem; text-align: center; display: block;" *ngIf="httpClient.currentLanguage=='hindi'">कार्यक्रम का पहला फोटो अपलोड करें</ion-label><br>
+      
+      <img *ngIf="uploadedImageList == undefined || uploadedImageList.length <= 0" alt="" src="assets/icon/captureimage.png" width="50%" (click)="selectImage(0)"/>
+      <img style="height: 150px;" *ngIf="uploadedImageList && uploadedImageList.length > 0 && uploadedImageList[0]" alt="" src="{{uploadedImageList[0]}}"/>
+    </ion-col>
+    <ion-col size="6" style="text-align: center; display: inline-block;">
+      <ion-label style="font-size: 0.9rem; text-align: center; display: block;" *ngIf="httpClient.currentLanguage=='english'">Upload Event Second Photo</ion-label>
+      <ion-label style="font-size: 0.9rem; text-align: center; display: block;" *ngIf="httpClient.currentLanguage=='hindi'">कार्यक्रम का दूसरा फोटो अपलोड करें</ion-label><br>
+      <img *ngIf="uploadedImageList == undefined || uploadedImageList.length <= 1" alt="" src="assets/icon/captureimage.png" width="50%" (click)="selectImage(1)"/>
+      <img style="height: 150px;" *ngIf="uploadedImageList && uploadedImageList.length > 0 && uploadedImageList[1]" alt="" src="{{uploadedImageList[1]}}"/>
+    </ion-col>
+  </ion-row>
+  <!-------------------------------------------------------------------------------------------------------------->
+ <!-- <ion-row  style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+    <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+      <ion-label position="floating">
+        <span *ngIf="httpClient.currentLanguage=='english'">Participants Details</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">प्रतिभागियों का विवरण</span>
+      </ion-label>
+  
+    </ion-item>
+  </ion-row>-->
+  <div>
+  <ion-row   class="forinput ion-margin-top">
+    <span *ngIf="httpClient.currentLanguage=='english'" style="color: green;" class="forinput ion-margin-top">Participants Details-</span>
+    <span *ngIf="httpClient.currentLanguage=='hindi'" style="color: green;" class="forinput ion-margin-top">प्रतिभागियों का विवरण-</span>
+  </ion-row>
+
+  <ion-row  style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+    <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+      <ion-label position="floating">
+        <span *ngIf="httpClient.currentLanguage=='english'">No of Farmers</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">किसानों की संख्या</span>
+      </ion-label>
+      <ion-input type="number"   id="NoOfFarmer" [(ngModel)]="NoOfFarmer"></ion-input>
+    </ion-item>
+  </ion-row>
+  <ion-row  style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+    <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+      <ion-label position="floating">
+        <span *ngIf="httpClient.currentLanguage=='english'">No of Dept. Officials</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">विभाग के अधिकारियों की संख्या</span>
+      </ion-label>
+      <ion-input type="number"    id="NoOfDeptOffical" [(ngModel)]="NoOfDeptOffical"></ion-input>
+    </ion-item>
+  </ion-row>
+  <ion-row  style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+    <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+      <ion-label position="floating">
+        <span *ngIf="httpClient.currentLanguage=='english'">No of Jan Pratinidhi</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">जन प्रतिनिधि की संख्या</span>
+      </ion-label>
+      <ion-input type="number"   id="NoOfJanPratinidhi" [(ngModel)]="NoOfJanPratinidhi"></ion-input>
+    </ion-item>
+  </ion-row>
+  <ion-row  style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+    <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+      <ion-label position="floating">
+        <span *ngIf="httpClient.currentLanguage=='english'">No of Other Dept officers</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">अन्य विभाग के अधिकारियों की संख्या</span>
+      </ion-label>
+      <ion-input type="number"    id="NoOfOtherDeptOfficial" [(ngModel)]="NoOfOtherDeptOfficial"></ion-input>
+    </ion-item>
+  </ion-row>
+  <ion-row  style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+    <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+      <ion-label position="floating">
+        <span *ngIf="httpClient.currentLanguage=='english'">No of Other Persons</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">अन्य व्यक्तियों की संख्या</span>
+      </ion-label>
+      <ion-input type="number"    id="NoOfTotalOther" [(ngModel)]="NoOfTotalOther"></ion-input>
+    </ion-item>
+  </ion-row>
+  <ion-row *ngIf="add_edit" style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+    <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+      <ion-label position="floating">
+        <span *ngIf="httpClient.currentLanguage=='english'">Total Participants</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">कुल प्रतिभागी</span>
+      </ion-label>
+      <ion-input type="number"  id="TotalParticipant" [(ngModel)]="TotalParticipant"></ion-input>
+    </ion-item>
+  </ion-row>
+  </div>
+ <!--- -------------------------------------------------------------------------------------------->
+
+</div>
+<ion-row *ngIf="IsDisable!='1'" vertical="bottom"    class="ion-margin-top">
+  <ion-col size="12">
+    <ion-button expand="block" (click)="addEventlist()">
+      <span>Submit</span>
+     <!-- <span *ngIf="httpClient.currentLanguage=='hindi'">जमा करें </span>-->
+    </ion-button>
+  </ion-col>
+</ion-row>
+</ion-content>

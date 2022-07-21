@@ -1,0 +1,51 @@
+.expandable_card{
+    margin: 0px 0px 20px;
+    box-shadow: 0 0 20px #0000002b;
+}
+
+.expandable_row{
+    border-bottom: 1px solid #dedede;
+    padding: 10px;
+}
+
+.ic_expand ion-icon{
+    font-size: 20px;
+    color: #bfbfbf;
+    margin-top: 3px;
+}
+
+.span_serialNo{
+    padding: 5px 10px;
+    background: #d4f6d4;
+    border-radius: 50%;
+}
+
+.card_heading{
+    font-size: 13px;
+    span{
+        color: #00ab50;
+        font-weight: 500;
+    }
+}
+
+.inp_value_assign_as{
+    background: #ededed;
+    --padding-start: 10px;
+    text-align: center;
+}
+
+.login_btn {
+    border-radius: 50px;
+    width: 180px;
+    height: 40px;
+    font-size: 15px;
+    text-transform: uppercase;
+    margin: 0 auto;
+    margin-top: 5px;
+    display: block;
+    box-shadow: none;
+    border: 1px solid #0baf58;
+    color: #ffffff;
+    background: -webkit-linear-gradient(
+0deg, #0baf58 0%, #66eea6 100%);      
+  }

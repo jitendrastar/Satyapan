@@ -1,0 +1,11 @@
+ion-row {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+
+  ion-col {
+    display: flex;
+    justify-content: center;
+  }
+
+}

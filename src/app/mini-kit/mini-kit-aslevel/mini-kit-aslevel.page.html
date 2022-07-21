@@ -1,0 +1,192 @@
+<ion-header class="header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-buttons>
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+    </ion-buttons>
+    <ion-title *ngIf="httpClient.currentLanguage=='english'">Minikit AS Level</ion-title>
+    <ion-title *ngIf="httpClient.currentLanguage=='hindi'">मिनीकिट एएस स्तर</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="httpClient.changeLanguage()">
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+            class="lang_change_color">/अ</span></span>
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+            class="lang_change_color">/A</span></span>
+      </ion-button>
+      <ion-button *ngIf="httpClient.userList.length>0" (click)="changeRole()">
+        <ion-icon name="people" style="font-size: 1.5em;"></ion-icon>
+      </ion-button>
+      <ion-button (click)="logoutPopUp()">
+        <ion-icon style="font-size: 1.5em;margin-right: 5px" name="person-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="home()">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div>
+    <ion-card  *ngFor="let item of selectedASJson; let i=index;" class="expandable_card">
+          <ion-row class="expandable_row">
+            <ion-col size="12" class="ion-text-center" style="font-weight: bold;">
+              <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Details of Mini Kit Distribution </span>
+              <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">मिनी किट वितरण का विवरण </span>
+            </ion-col>
+          </ion-row>
+        <div class="expandable_row">
+        <!-- <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Scheme</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">योजना</span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.scheme[0].EngName}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.scheme[0].HinName}}</span>
+          </ion-col>
+        </ion-row> -->
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Scheme</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">योजना</span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.subScheme[0].SubSchemeName}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.subScheme[0].SubSchemeName}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Season</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">सीज़न </span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.season[0].AgriLovEn}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.season[0].AgriLovHi}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Crop</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">फसल </span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.crop[0].cropen}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.crop[0].crophi}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Variety</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">किस्म </span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.variety[0].varietyen}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.variety[0].varietyhi}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Size</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">साइज </span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.crop[0].Size}} {{item.crop[0].UNIT}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.crop[0].Size}} {{item.crop[0].UNIT}}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size=4>
+            <span *ngIf="httpClient.currentLanguage=='english'" class="card_heading">Area</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'" class="card_heading">क्षेत्र </span>
+          </ion-col>
+          <ion-col class="card_heading">
+            <span *ngIf="httpClient.currentLanguage=='english'">{{item.crop[0].Area}}</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.crop[0].Area}}</span>
+          </ion-col>
+        </ion-row>
+      </div>
+    </ion-card>
+  </div>
+
+
+  <ion-card class="filter_card ion-text-center">
+    <ion-row>
+      <ion-col size="12" class="ion-text-center">
+        <ion-input type="text"
+          placeholder="{{httpClient.currentLanguage=='english' ? 'Jan Aadhar Number' : 'जन आधार संख्या'}}"
+          class="filter_item" [(ngModel)]="janAadharNo"></ion-input>
+      </ion-col>
+      <ion-col class="btn_getDetail">
+        <ion-buttons>
+          <ion-button class="login_btn" (click)="getAllotmentDetailAS()">
+            <span *ngIf="httpClient.currentLanguage=='english'">Get Detail</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">विवरण प्राप्त करें</span>
+          </ion-button>
+        </ion-buttons>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+  <div style="overflow-x:auto;" *ngIf="asTargetCompleteList.length > 0">
+    <table>
+      <tr class="header_row">
+        <th>
+          <span *ngIf="httpClient.currentLanguage=='english'">Member ID</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">सदस्य आईडी</span>
+        </th>
+        <th>
+          <span *ngIf="httpClient.currentLanguage=='english'">Member Name</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">सदस्य का नाम</span>
+        </th>
+        <th>
+          <span *ngIf="httpClient.currentLanguage=='english'">Mobile No.</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">मोबाइल नंबर</span>
+        </th>
+      </tr>
+      <ng-template></ng-template>
+      <!-- <tr *ngFor="let item of optionalArray; let i=index;"> -->
+      <tr *ngFor="let item of asTargetCompleteList; let i = index" class="list_content">
+        <td>
+          <p>{{item.JAN_MEMBER_ID}}</p>
+        </td>
+        <td>
+          <p *ngIf="httpClient.currentLanguage=='english'">{{item.NAME}}</p>
+          <p *ngIf="httpClient.currentLanguage=='hindi'">{{item.NAME_HINDI}}</p>
+        </td>
+        <td>
+          <p>{{item.MOBILE_NO}}</p>
+        </td>
+      </tr>
+
+    </table>
+    <ion-row>
+      <ion-col class="btn_getDetail">
+        <ion-buttons>
+          <ion-button class="login_btn" (click)="tappedOnDistributeBtn()">
+            <span *ngIf="httpClient.currentLanguage=='english'">Distribute</span>
+            <span *ngIf="httpClient.currentLanguage=='hindi'">वितरित करें </span>
+          </ion-button>
+        </ion-buttons>
+      </ion-col>
+    </ion-row>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-row>
+    <ion-col>
+      <ion-buttons>
+        <ion-button class="btn_viewLit" (click)="viewMemberList()">
+          <span *ngIf="httpClient.currentLanguage=='english'">View List of Minikit Beneficiaries</span>
+          <span *ngIf="httpClient.currentLanguage=='hindi'">मिनीकिट लाभार्थियों की सूची देखें </span>
+          <ion-icon name="arrow-forward-circle" class="ic_forward_arrow"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-col>
+  </ion-row>
+</ion-footer>

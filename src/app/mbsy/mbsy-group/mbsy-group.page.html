@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button slot="start"></ion-back-button>
+    <ion-title>MBSY - Groups</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-segment [(ngModel)]="segmentType" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="pending" checked>
+      <ion-label>Pending</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="completed">
+      <ion-label>Completed</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div [ngSwitch]="segmentType">
+    <div *ngSwitchCase="'pending'">
+      <div *ngIf="groupList && groupList.length > 0">
+        <div *ngFor="let item of groupList; let i = index;">
+          <ion-card *ngIf="item && (!item.IsGroupCompleted || item.IsGroupCompleted == 'False')">
+            <ion-card-header>
+              <ion-row>
+                <ion-col size="6" style="margin: auto;">
+                  <span>{{item.GroupName}}</span>
+                </ion-col>
+                <ion-col size="6" style="justify-content: right; display: flex;">
+                  <ion-button (click)="gotoFarmerList(i)" style="font-size: 11px; --background: #dcdcdc; color: #000;">
+                    View &nbsp;<i style="font-size: 16px;" class="fa-solid fa-circle-info"></i></ion-button>
+                  <ion-button style="font-size: 11px;" (click)="tappedOnAddFarmer(i)">
+                    <i class="fa-solid fa-plus"></i>&nbsp; Farmer
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-card-header>
+          </ion-card>
+        </div>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'completed'">
+      <div *ngIf="groupList && groupList.length > 0">
+        <div *ngFor="let item of groupList; let i = index;">
+          <ion-card *ngIf="item && (item.IsGroupCompleted && item.IsGroupCompleted == 'True')">
+            <ion-card-header>
+              <ion-row>
+                <ion-col size="6" style="margin: auto;">
+                  <span>{{item.GroupNo}}</span>
+                </ion-col>
+                <ion-col size="6" style="justify-content: right; display: flex;">
+                  <ion-button (click)="viewCalculation(i)" style="font-size: 11px; --background: #dcdcdc; color: #000;">
+                    Calculation &nbsp;<i style="font-size: 16px;" class="fa-solid fa-circle-info"></i></ion-button>
+                  <ion-button *ngIf="!item.IsProduceCountChecked || item.IsProduceCountChecked != 'True'" style="font-size: 11px;" (click)="tappedOnDistribution(i)">
+                    Next</ion-button>
+                    <ion-button *ngIf="item.IsProduceCountChecked && item.IsProduceCountChecked == 'True'" style="font-size: 11px;" (click)="tappedOnAllotment(i)">
+                      Next</ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-card-header>
+          </ion-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="create-grp-btn" expand="full" (click)="tappedOnCreateGroup()">
+      Create Group
+      <ion-icon slot="end" name="add"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

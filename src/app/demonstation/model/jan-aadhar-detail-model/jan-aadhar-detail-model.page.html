@@ -1,0 +1,40 @@
+<ion-content>
+
+  <ion-list lines="none">
+    <ion-radio-group allow-empty-selection="true" name="radio-group" (ionChange)="radioGroupChange($event)" #radioGroup>
+      <ion-list-header>
+        <ion-label>Select Member Name</ion-label>
+      </ion-list-header>
+
+      <ion-item *ngFor="let item of memberList" (ionFocus)="radioFocus()" (ionSelect)="radioSelect($event)"
+        (ionBlur)="radioBlur()">
+        <ion-label *ngIf="httpClient.currentLanguage=='english'">{{item.NAME}}</ion-label>
+        <ion-label *ngIf="httpClient.currentLanguage=='hindi'">{{item.NAME_HINDI}}</ion-label>
+        <ion-radio slot="start" value="{{item.JAN_MEMBER_ID}}" (ionSelect)="radioSelect($event)"></ion-radio>
+      </ion-item>
+
+    </ion-radio-group>
+  </ion-list>
+
+  <ion-label class="lb_member_cat">
+    Select Member Category
+  </ion-label>
+  <ion-item lines="none">
+    <ion-select [(ngModel)]="memberCatID" placeholder="Select Category">
+      <ion-select-option *ngFor="let item of memberCatList" value="{{item.Id}}">
+        <span *ngIf="httpClient.currentLanguage=='english'">{{item.SourceEn}}</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">{{item.SourceHi}}</span>
+      </ion-select-option> 
+    </ion-select>
+  </ion-item>
+
+  <ion-row>
+    <ion-col class="ion-text-center">
+      <ion-button type="button" class="login_btn" (click)="saveTargetToLocalList()">
+        Save
+      </ion-button>
+    </ion-col>
+  </ion-row>
+ 
+
+</ion-content>

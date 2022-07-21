@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-title *ngIf="httpClient.currentLanguage=='english'">PP Chemical </ion-title>
+    <ion-title *ngIf="httpClient.currentLanguage=='hindi'">पीपी केमिकल </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+   <!-- <ion-buttons slot="end">
+      <ion-button (click)="logoutPopUp()">
+        <ion-icon style="font-size: 1.5em;margin-right: 5px" name="person-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="home()">
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>-->
+    <div slot="end" (click)="httpClient.changeLanguage()" class="ion-text-center paddingLeftRight">
+      <!-- <span
+        style="font-size: 0.7em;color: #00AB50;font-weight: 700;margin-top: 4px">{{getPreVerificationData.CreationDate}}</span><br>-->
+      <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+          class="lang_change_color">/अ</span></span>
+      <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+          class="lang_change_color">/A</span></span>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-row  style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+    <ion-item  lines='none' style="width: 98%;margin: 0 auto;">
+      <ion-label position="floating">
+        <span *ngIf="httpClient.currentLanguage=='english'">Farmer Category</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">किसान श्रेणी</span>
+      </ion-label>
+      <ion-select  id="FarmerCategory"  [(ngModel)]="FarmerCategory" (ionChange)="getvalue_farmer()">
+        <ion-select-option value="o">
+          <span *ngIf="httpClient.currentLanguage=='english'">General</span>
+          <span  *ngIf="httpClient.currentLanguage=='hindi'">General</span>
+      
+        </ion-select-option>
+        <ion-select-option value="1">
+          <span *ngIf="httpClient.currentLanguage=='english'">SC</span>
+          <span  *ngIf="httpClient.currentLanguage=='hindi'">SC</span>
+      
+        </ion-select-option>
+        <ion-select-option value="1">
+          <span *ngIf="httpClient.currentLanguage=='english'">TSP</span>
+          <span  *ngIf="httpClient.currentLanguage=='hindi'"> TSP</span>
+      
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-row>
+
+  <ion-row  style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+    <ion-item lines='none' style="width: 98%;margin: 0 auto;">
+      <ion-label position="floating">
+        <span *ngIf="httpClient.currentLanguage=='english'">Area in Hectare</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">हेक्टेयर में क्षेत्रफल</span>
+      </ion-label>
+      <ion-input type="number"   id="EventName2" [(ngModel)]="Areahectare"></ion-input>
+    </ion-item>
+  </ion-row>
+
+  <ion-row  style="border:1px solid #e8e8e8;border-radius: 10px;" class="forinput ion-margin-top">
+    <ion-item  lines='none' style="width: 98%;margin: 0 auto;">
+      <ion-label position="floating">
+        <span *ngIf="httpClient.currentLanguage=='english'">Crop List</span>
+        <span *ngIf="httpClient.currentLanguage=='hindi'">फसल सूची</span>
+      </ion-label>
+      <ion-select  id="FarmerCategory"  [(ngModel)]="CropCategory" (ionChange)="getvalue_farmer()">
+        <ion-select-option value="o">
+          <span *ngIf="httpClient.currentLanguage=='english'">Rabi</span>
+          <span  *ngIf="httpClient.currentLanguage=='hindi'"> रबी</span>
+      
+        </ion-select-option>
+        <ion-select-option value="1">
+          <span *ngIf="httpClient.currentLanguage=='english'">Kharif</span>
+          <span  *ngIf="httpClient.currentLanguage=='hindi'">खरीफ</span>
+      
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-row>
+</ion-content>

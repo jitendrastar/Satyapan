@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button slot="start"></ion-back-button>
+    <ion-title>MBSY - Allotment</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="httpClient.changeLanguage()">
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='english'">A<span
+            class="lang_change_color">/अ</span></span>
+        <span class="lang_change" *ngIf="httpClient.currentLanguage=='hindi'">अ<span
+            class="lang_change_color">/A</span></span>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div style="overflow-x:auto;">
+    <table *ngIf="farmerList && farmerList.length > 0">
+      <tr class="header_row">
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Sr No' : 'क्रमांक'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Farmer Name/Father Name' : 'किसान का नाम/पिता का
+            नाम'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Prospective Area' : 'संभावित क्षेत्र'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Farmer Category' : 'किसान की श्रेणी'}}</span>
+        </th>
+        <th>
+          <span>Action</span>
+        </th>
+        <!-- <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Current Seed Sowing Area (HA)' : 'Current Seed Sowing Area (HA)'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Calculated Seed' : 'परिगणित बीज'}}</span>
+        </th>
+        <th>
+          <span>{{httpClient.currentLanguage=='english' ? 'Calculated Seed' : 'परिगणित बीज'}}</span>
+        </th> -->
+      </tr>
+      <ng-template></ng-template>
+      <tr *ngFor="let item of farmerList; let i = index"
+        [ngClass]="item.IsDistributedSeeds && item.IsDistributedSeeds == 'True' ? 'disable-row' : 'enable-row'">
+        <td>
+          <p>{{i+1}}</p>
+        </td>
+        <td>
+          <p>{{item.FarmerName}}/{{item.FatherName}}</p>
+        </td>
+        <td>
+          <p>{{item.ProspectiveAreaHA}} HA</p>
+        </td>
+        <td>
+          <p>{{item.FarmerCategory}}</p>
+        </td>
+        <td *ngIf="!item.IsDistributedSeeds || item.IsDistributedSeeds == '' || item.IsDistributedSeeds == 'False'">
+          <p (click)="mbsyAllotment(item, i)">
+            <!-- <i style="font-size: 16px;" class="fa-solid fa-box-archive"></i> -->
+            <i style="font-size: 18px; color: #f00" class="fa-solid fa-hand-holding-hand"></i>
+          </p>
+        </td>
+        <td *ngIf="item.IsDistributedSeeds && item.IsDistributedSeeds == 'True'">
+          <p>
+            <i style="font-size: 20px; color: #0BAF58" class="fa-solid fa-person-circle-check"></i>
+          </p>
+        </td>
+        <!-- <td>
+            <p>{{selectedGroup.CurrentSeedSowingAreaHa}}</p>
+          </td> 
+          <td>
+            <p>{{selectedGroup.CurrentSeedSowingAreaHa}}</p>
+          </td>  -->
+      </tr>
+    </table>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col size="12">
+        <ion-button expand="full" (click)="gotoTraining()">Training</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
